@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bucks on Ice — Rustic Back Acres</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<nav id="navbar"><div class="nav-inner">
+  <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="Rustic Back Acres Logo" class="nav-logo-img" /><div class="nav-logo-text"><span class="farm-name">Rustic Back Acres</span><span class="farm-loc">Brighton, Tennessee</span></div></a>
+  <ul class="nav-links">
+    <li class="nav-item"><a href="index.html">Home</a></li>
+    <li class="nav-item"><span>Animals ▾</span><ul class="dropdown"><li><a href="does.html">Our Does</a></li><li><a href="bucks.html">Our Bucks</a></li><li><a href="bucks-on-ice.html">Bucks on Ice</a></li><li><a href="reference.html">Reference Animals</a></li><li><a href="cattle.html">Miniature Cattle</a></li><li><a href="available.html">Available</a></li><li><a href="kidding.html">Kidding Schedule</a></li></ul></li>
+    <li class="nav-item"><a href="about.html">About</a></li>
+    <li class="nav-item"><span>Resources ▾</span><ul class="dropdown"><li><a href="resources.html#gestation">Gestation Calculator</a></li><li><a href="resources.html#milkstar">Milk Star Calculator</a></li></ul></li>
+    <li class="nav-item"><a href="sales-policy.html" style="color:var(--teal)">Sales Policy</a></li>
+    <li class="nav-item"><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div></nav>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a>
+  <span class="mobile-section-label">Animals</span>
+  <div class="mobile-sub"><a href="does.html">Our Does</a><a href="bucks.html">Our Bucks</a><a href="bucks-on-ice.html">Bucks on Ice</a><a href="reference.html">Reference Animals</a><a href="cattle.html">Miniature Cattle</a><a href="available.html">Available</a><a href="kidding.html">Kidding Schedule</a></div>
+  <a href="about.html">About</a>
+  <span class="mobile-section-label">Resources</span>
+  <div class="mobile-sub"><a href="resources.html#gestation">Gestation Calculator</a><a href="resources.html#milkstar">Milk Star Calculator</a></div>
+  <a href="sales-policy.html" style="color:var(--teal)">Sales Policy</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<div class="ice-hero-header">
+  <div class="container" style="position:relative;z-index:2">
+    <span class="eyebrow" style="color:var(--teal-light)">Frozen Semen Available</span>
+    <h1 class="section-title" style="font-size:clamp(2.2rem,4.5vw,3.5rem);color:var(--white)">Bucks <em>on Ice</em></h1>
+    <div class="teal-rule center"></div>
+    <p style="max-width:520px;margin:0 auto;font-family:var(--font-serif);font-size:1.05rem;color:rgba(250,250,248,.65);line-height:1.85">Frozen semen available from Rustic Back Acres bucks. Contact us for pricing and availability.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="animals-grid" id="boi-grid">
+      <div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--mid-grey);font-family:var(--font-serif)">Loading...</div>
+    </div>
+  </div>
+</section>
+<div id="boi-modals"></div>
+
+<footer><div class="container">
+  <div class="footer-inner">
+    <div class="footer-brand"><img src="images/logo.png" alt="Rustic Back Acres" class="footer-brand-logo" /><div class="fname">Rustic Back Acres</div><span class="floc">Brighton, Tennessee</span><p class="footer-tagline">ADGA and AGS registered Nigerian Dwarf goats in Brighton, Tennessee.</p></div>
+    <div class="footer-col"><h4>Animals</h4><ul><li><a href="does.html">Our Does</a></li><li><a href="bucks.html">Our Bucks</a></li><li><a href="bucks-on-ice.html">Bucks on Ice</a></li><li><a href="reference.html">Reference Animals</a></li><li><a href="cattle.html">Miniature Cattle</a></li><li><a href="available.html">Available</a></li></ul></div>
+    <div class="footer-col"><h4>More</h4><ul><li><a href="about.html">About</a></li><li><a href="kidding.html">Kidding Schedule</a></li><li><a href="resources.html">Resources</a></li><li><a href="sales-policy.html">Sales Policy</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Follow Along</h4><ul><li><a href="#" data-social="instagram" target="_blank">Instagram</a></li><li><a href="#" data-social="tiktok" target="_blank">TikTok</a></li><li><a href="#" data-social="facebook" target="_blank">Facebook</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span class="footer-copyright">© 2026 Rustic Back Acres · Brighton, Tennessee</span><span>ADGA &amp; AGS Performance Herd</span></div>
+</div></footer>
+<script src="js/main.js"></script><script src="js/loader.js"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+const BOI_FILES=['gambit','revenge','lightning','york','understated','zinger'];
+
+function buildBoiCard(a,i){
+  const colls = (a.collections||[]).map(c=>`<div class="collection-block"><strong>${c.label}</strong>${c.details}</div>`).join('');
+  const badge = a.titles?a.titles.split(',')[0].trim():'';
+  const photo = a.photo1?`<img src="${a.photo1}" alt="${a.call_name}" style="width:100%;height:100%;object-fit:cover"/>`:`<div class="slide-placeholder">Add Photo Here</div>`;
+  return `<article class="animal-card fade-in">
+  <div class="card-carousel">
+    <div class="carousel-slides">
+      <div class="carousel-slide">${photo}<div class="carousel-caption"></div></div>
+      ${a.photo2?`<div class="carousel-slide"><img src="${a.photo2}" alt="${a.call_name}" style="width:100%;height:100%;object-fit:cover"/><div class="carousel-caption"></div></div>`:''}
+    </div>
+    ${badge?`<span class="card-badge badge-gold">${badge}</span>`:''}
+  </div>
+  <div class="card-body">
+    <h3 class="card-name">${a.call_name}</h3>
+    ${a.reg_name?`<p class="card-reg">${a.reg_name}</p>`:''}
+    <div class="semen-stats">
+      ${a.straws?`<div class="semen-stat"><span>Straws</span>${a.straws}</div>`:''}
+    </div>
+    ${colls}
+    <div class="card-meta">
+      ${a.dob?`<div class="meta-item"><span class="meta-key">DOB</span><span class="meta-val">${a.dob}</span></div>`:''}
+      ${a.color?`<div class="meta-item"><span class="meta-key">Color</span><span class="meta-val">${a.color}</span></div>`:''}
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-filled" style="font-size:.62rem;padding:.6rem 1.1rem" onclick="openBoiModal('boi-modal-${i}')">Full Profile</button>
+      <a href="contact.html" class="btn btn-teal" style="font-size:.62rem;padding:.6rem 1.1rem">Contact for Pricing</a>
+    </div>
+    <div class="pedigree-strip"><div class="ped-parents">
+      <div class="ped-chip"><span>Sire</span>${a.sire||'Add Sire'}</div>
+      <div class="ped-chip"><span>Dam</span>${a.dam||'Add Dam'}</div>
+    </div></div>
+  </div>
+</article>`;
+}
+
+function buildBoiModal(a,i){
+  const colls=(a.collections||[]).map(c=>`<div class="collection-block"><strong>${c.label}</strong>${c.details}</div>`).join('');
+  const photo=a.photo1?`<img src="${a.photo1}" alt="${a.call_name}" style="width:100%;height:100%;object-fit:cover"/>`:`<div class="slide-placeholder">Add Photo Here</div>`;
+  return `<div class="modal-overlay" id="boi-modal-${i}">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('boi-modal-${i}').classList.remove('open');document.body.style.overflow=''">×</button>
+    <div class="modal-grid">
+      <div class="modal-carousel" style="aspect-ratio:1;overflow:hidden;background:var(--off-white)">${photo}</div>
+      <div class="modal-info">
+        <h2 style="font-family:var(--font-rustic);font-size:1.75rem;font-weight:400;letter-spacing:.04em;margin-bottom:.2rem">${a.call_name}</h2>
+        ${a.reg_name?`<p style="font-family:var(--font-serif);font-style:italic;font-size:.85rem;color:var(--mid-grey);margin-bottom:1.25rem">${a.reg_name}</p>`:''}
+        <div class="card-meta" style="margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--light-grey)">
+          ${a.dob?`<div class="meta-item"><span class="meta-key">DOB</span><span class="meta-val">${a.dob}</span></div>`:''}
+          ${a.color?`<div class="meta-item"><span class="meta-key">Color</span><span class="meta-val">${a.color}</span></div>`:''}
+          ${a.sire?`<div class="meta-item"><span class="meta-key">Sire</span><span class="meta-val">${a.sire}</span></div>`:''}
+          ${a.dam?`<div class="meta-item"><span class="meta-key">Dam</span><span class="meta-val">${a.dam}</span></div>`:''}
+        </div>
+        ${colls}
+        <div style="padding:.6rem .85rem;background:var(--teal-faint);border:1px solid rgba(13,140,126,.2);font-size:.7rem;color:var(--teal-dark);text-align:center;margin:1rem 0">DNA on File</div>
+        <a href="contact.html" class="btn btn-filled" style="width:100%;text-align:center;display:block">Contact for Pricing</a>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function openBoiModal(id){
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow='hidden';
+}
+document.addEventListener('click',e=>{if(e.target.classList.contains('modal-overlay')){e.target.classList.remove('open');document.body.style.overflow='';}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow='';});});
+
+async function loadBOI(){
+  const grid=document.getElementById('boi-grid');
+  const mc=document.getElementById('boi-modals');
+  const bucks=[];
+  for(const f of BOI_FILES){
+    try{const r=await fetch(`/_data/bucks-on-ice/${f}.json`);if(r.ok){const d=await r.json();d._f=f;bucks.push(d);}}catch(e){}
+  }
+  if(!bucks.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--mid-grey)">No bucks on ice added yet. Go to /admin to add them.</div>';return;}
+  bucks.sort((a,b)=>(a.sort_order||99)-(b.sort_order||99));
+  grid.innerHTML=bucks.map((a,i)=>buildBoiCard(a,i)).join('');
+  mc.innerHTML=bucks.map((a,i)=>buildBoiModal(a,i)).join('');
+  setTimeout(()=>grid.querySelectorAll('.fade-in').forEach(el=>el.classList.add('visible')),100);
+}
+loadBOI();
+</script>
+</body>
+</html>

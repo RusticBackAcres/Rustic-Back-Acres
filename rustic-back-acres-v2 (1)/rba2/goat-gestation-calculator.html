@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Goat Gestation Calculator — Rustic Back Acres</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+    :root {
+    --black:     #1A1816;
+    --deep:      #2A2826;
+    --surface:   #F2F0EC;
+    --card:      #FAFAF8;
+    --border:    #D4D0C8;
+    --border-lt: #C0BBA8;
+    --white:     #2A2826;
+    --off:       #4A4844;
+    --muted:     #9A9690;
+    --navy:      #0A6B60;
+    --navy-lt:   #0D8C7E;
+    --green:     #2a7a3a;
+    --green-lt:  #3a9a4a;
+    --red:       #8a2020;
+    --amber:     #a07c2a;
+    --input-bg:  #FAFAF8;
+    --page-bg:   #F2F0EC;
+    --teal:      #0A6B60;
+    --teal-lt:   #0D8C7E;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; background: var(--page-bg); color: var(--white); min-height: 100vh; }
+  .wrapper { max-width: 860px; margin: 0 auto; }
+
+  /* Header */
+  .top-bar { background: var(--black); text-align: center; padding: 18px 24px 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-bottom: 2px solid var(--navy-lt); }
+  .farm-name { font-family: 'Cinzel', Georgia, serif; font-size: clamp(22px,4vw,36px); font-weight: 700; letter-spacing: 0.12em; color: var(--white); }
+  .farm-sub { font-style: italic; color: var(--muted); font-size: 14px; letter-spacing: 0.05em; }
+  .nav-bar { background: var(--deep); padding: 10px 24px; display: flex; justify-content: center; border-bottom: 1px solid var(--border); }
+  .nav-item { font-family: 'Cinzel', Georgia, serif; font-size: 13px; letter-spacing: 0.15em; color: var(--off); font-weight: 600; }
+
+  .main { padding: 28px 24px 40px; }
+  .calc-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+
+  /* Section labels */
+  .sec-label { font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.18em; color: var(--off); margin-bottom: 14px; font-weight: 600; text-transform: uppercase; }
+
+  /* Breed */
+  .breed-section { padding: 24px 28px 20px; border-bottom: 1px solid var(--border); }
+  .breed-options { display: flex; gap: 12px; flex-wrap: wrap; }
+  .breed-btn { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: var(--deep); border: 2px solid var(--border); border-radius: 8px; color: var(--muted); font-family: 'Crimson Text', serif; font-size: 15px; cursor: pointer; transition: all 0.18s; flex: 1; min-width: 200px; }
+  .breed-btn:hover { border-color: var(--navy-lt); color: var(--off); }
+  .breed-btn.active { background: var(--navy); border-color: var(--navy-lt); color: var(--white); }
+  .radio-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-lt); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.18s; }
+  .breed-btn.active .radio-dot { border-color: var(--white); background: var(--white); }
+  .breed-btn.active .radio-dot::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--navy); }
+  .breed-info { display: flex; flex-direction: column; gap: 2px; }
+  .breed-name { font-weight: 600; font-size: 15px; line-height: 1.2; }
+  .breed-days { font-size: 12px; font-style: italic; opacity: 0.75; }
+  .breed-btn.active .breed-days { opacity: 0.9; }
+
+  /* Date section */
+  .date-section { padding: 24px 28px; border-bottom: 1px solid var(--border); }
+  .date-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end; }
+  .date-field { display: flex; flex-direction: column; gap: 6px; }
+  .date-field label { font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); font-weight: 400; }
+
+  /* Month & Day selects */
+  select.month-sel, select.day-sel {
+    font-family: 'Crimson Text', serif; font-size: 16px; padding: 10px 14px;
+    background: var(--input-bg); border: 1.5px solid var(--border); border-radius: 6px;
+    color: var(--white); outline: none; transition: border-color 0.15s; appearance: auto;
+  }
+  select.month-sel:focus, select.day-sel:focus { border-color: var(--navy-lt); }
+  select.month-sel { min-width: 150px; }
+  select.day-sel { width: 80px; }
+
+  /* ── Year Spinner ── */
+  .year-spinner-wrap { display: flex; flex-direction: column; gap: 6px; }
+  .year-spinner-wrap label { font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); font-weight: 400; }
+  .year-spinner {
+    display: flex; flex-direction: column; align-items: center;
+    background: var(--input-bg); border: 1.5px solid var(--border); border-radius: 6px;
+    overflow: hidden; width: 90px;
+  }
+  .year-arrow {
+    width: 100%; padding: 5px 0; background: var(--surface); border: none;
+    color: var(--muted); font-size: 14px; cursor: pointer; transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center; user-select: none;
+  }
+  .year-arrow:hover { background: var(--navy); color: var(--white); }
+  .year-display {
+    font-family: 'Cinzel', Georgia, serif; font-size: 20px; font-weight: 700;
+    color: var(--white); padding: 8px 0; text-align: center; width: 100%;
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    letter-spacing: 0.05em; cursor: default; transition: color 0.15s;
+  }
+  .year-display.changed { color: var(--navy-lt); }
+
+  /* Also keep a hidden select for programmatic use */
+  #sel-year { display: none; }
+
+  .calc-btn { padding: 11px 28px; background: linear-gradient(135deg, var(--navy), var(--navy-lt)); color: #fff; border: none; border-radius: 6px; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; cursor: pointer; align-self: flex-end; box-shadow: 0 3px 10px rgba(42,61,107,0.4); transition: opacity 0.15s; white-space: nowrap; }
+  .calc-btn:hover { opacity: 0.9; }
+
+  /* Results */
+  .result-section { padding: 0 28px 28px; }
+  .result-box { margin-top: 20px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)} }
+
+  .result-header { background: linear-gradient(135deg, var(--green), var(--green-lt)); padding: 18px 22px; display: flex; align-items: center; gap: 14px; }
+  .result-icon { font-size: 32px; line-height: 1; }
+  .result-label { font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.16em; color: rgba(255,255,255,0.75); margin-bottom: 4px; }
+  .result-date { font-family: 'Cinzel', Georgia, serif; font-size: 26px; font-weight: 700; color: #fff; letter-spacing: 0.02em; }
+
+  .result-details { background: var(--surface); padding: 16px 22px; display: flex; flex-wrap: wrap; gap: 24px; border-bottom: 1px solid var(--border); }
+  .detail-item { display: flex; flex-direction: column; gap: 3px; }
+  .detail-label { font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: 0.14em; color: var(--muted); font-weight: 600; }
+  .detail-value { font-size: 15px; color: var(--off); font-weight: 600; }
+  .detail-value.highlight { color: var(--amber); }
+
+  .range-box { margin-top: 14px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .range-header { background: var(--black); padding: 10px 18px; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.16em; color: var(--off); font-weight: 600; border-bottom: 1px solid var(--border); }
+  .range-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); }
+  .range-item { padding: 14px 18px; border-right: 1px solid var(--border); background: var(--surface); }
+  .range-item:last-child { border-right: none; }
+  .range-sublabel { font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 5px; }
+  .range-date { font-size: 14px; color: var(--white); font-weight: 600; }
+  .range-note { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 3px; }
+
+  .countdown-box { margin-top: 14px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .countdown-inner { background: var(--surface); padding: 18px 22px; display: flex; flex-wrap: wrap; gap: 24px; }
+
+  .gestation-note { margin-top: 18px; background: rgba(42,61,107,0.15); border: 1px solid rgba(42,61,107,0.4); border-radius: 8px; padding: 14px 18px; font-size: 13px; color: var(--off); line-height: 1.75; }
+  .gestation-note strong { color: var(--white); }
+
+  /* Multi doe tracker */
+  .multi-section { margin-top: 14px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .multi-header { background: var(--black); padding: 10px 18px; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.16em; color: var(--off); font-weight: 600; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+  .add-doe-btn { background: none; border: 1px solid var(--navy-lt); color: var(--navy-lt); font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.1em; padding: 4px 12px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+  .add-doe-btn:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  .doe-list { padding: 0 18px 14px; background: var(--surface); }
+  .doe-placeholder { padding: 14px 0; font-size: 13px; color: var(--muted); font-style: italic; }
+  .doe-row { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .doe-row:last-child { border-bottom: none; }
+  .doe-input { font-family: 'Crimson Text', serif; font-size: 14px; padding: 6px 8px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 5px; color: var(--white); outline: none; }
+  .doe-input:focus { border-color: var(--navy-lt); }
+  .doe-name-input { width: 110px; }
+  .doe-name-input::placeholder { color: var(--muted); font-style: italic; }
+  .doe-result { font-size: 13px; color: var(--off); flex: 1; min-width: 150px; }
+  .doe-kidding { color: var(--green-lt); font-weight: 600; }
+  .remove-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; padding: 2px 6px; border-radius: 4px; transition: color 0.15s; line-height: 1; }
+  .remove-btn:hover { color: var(--red); }
+
+  /* Doe year spinner (compact) */
+  .doe-yr-spin { display: flex; flex-direction: column; align-items: center; background: var(--input-bg); border: 1px solid var(--border); border-radius: 5px; overflow: hidden; width: 72px; }
+  .doe-yr-arrow { width: 100%; padding: 3px 0; background: var(--surface); border: none; color: var(--muted); font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .doe-yr-arrow:hover { background: var(--navy); color: var(--white); }
+  .doe-yr-val { font-family: 'Cinzel', Georgia, serif; font-size: 15px; font-weight: 700; color: var(--white); padding: 4px 0; text-align: center; width: 100%; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  footer { text-align: center; padding: 16px; font-size: 12px; color: var(--muted); font-style: italic; border-top: 1px solid var(--border); line-height: 1.8; background: var(--black); }
+  .hidden { display: none !important; }
+
+  @media (max-width:600px) { .date-row { flex-direction: column; align-items: stretch; } .calc-btn { width: 100%; } .breed-btn { min-width: 100%; } }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  
+
+  <div class="main">
+    <div class="calc-card">
+
+      <!-- Breed -->
+      <div class="breed-section">
+        <div class="sec-label">Select Breed Type</div>
+        <div class="breed-options">
+          <button class="breed-btn active" id="btn-mini" onclick="setBreed('mini')">
+            <div class="radio-dot"></div>
+            <div class="breed-info"><span class="breed-name">🐐 Miniature Breeds</span><span class="breed-days">Nigerian Dwarf, Pygmy — 145 days</span></div>
+          </button>
+          <button class="breed-btn" id="btn-std" onclick="setBreed('std')">
+            <div class="radio-dot"></div>
+            <div class="breed-info"><span class="breed-name">🐐 Standard Breeds</span><span class="breed-days">Alpine, Nubian, LaMancha, etc. — 150 days</span></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Date -->
+      <div class="date-section">
+        <div class="sec-label">Date Bred / Exposed</div>
+        <div class="date-row">
+
+          <div class="date-field">
+            <label>MONTH</label>
+            <select class="month-sel" id="sel-month" onchange="autoCalc()">
+              <option value="0">January</option><option value="1">February</option>
+              <option value="2">March</option><option value="3">April</option>
+              <option value="4">May</option><option value="5">June</option>
+              <option value="6">July</option><option value="7">August</option>
+              <option value="8">September</option><option value="9">October</option>
+              <option value="10">November</option><option value="11">December</option>
+            </select>
+          </div>
+
+          <div class="date-field">
+            <label>DAY</label>
+            <select class="day-sel" id="sel-day" onchange="autoCalc()"></select>
+          </div>
+
+          <div class="year-spinner-wrap">
+            <label>YEAR</label>
+            <div class="year-spinner">
+              <button class="year-arrow" onclick="changeYear(1)" title="Next year">▲</button>
+              <div class="year-display" id="year-display">2026</div>
+              <button class="year-arrow" onclick="changeYear(-1)" title="Previous year">▼</button>
+            </div>
+            <select id="sel-year" onchange="autoCalc()"></select>
+          </div>
+
+          <button class="calc-btn" onclick="calculate()">CALCULATE</button>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="result-section">
+        <div id="result-area" class="hidden">
+
+          <div class="result-box">
+            <div class="result-header">
+              <span class="result-icon">🍼</span>
+              <div>
+                <div class="result-label">ESTIMATED KIDDING DATE</div>
+                <div class="result-date" id="res-date">—</div>
+              </div>
+            </div>
+            <div class="result-details">
+              <div class="detail-item"><span class="detail-label">DATE BRED</span><span class="detail-value" id="res-bred">—</span></div>
+              <div class="detail-item"><span class="detail-label">BREED TYPE</span><span class="detail-value" id="res-breed">—</span></div>
+              <div class="detail-item"><span class="detail-label">GESTATION LENGTH</span><span class="detail-value highlight" id="res-days">—</span></div>
+              <div class="detail-item"><span class="detail-label">DAY OF WEEK</span><span class="detail-value" id="res-dow">—</span></div>
+            </div>
+          </div>
+
+          <div class="range-box">
+            <div class="range-header">KIDDING WINDOW</div>
+            <div class="range-grid">
+              <div class="range-item"><div class="range-sublabel">⚡ EARLY (−5 DAYS)</div><div class="range-date" id="res-early">—</div><div class="range-note">Watch closely</div></div>
+              <div class="range-item"><div class="range-sublabel">✓ ON TIME</div><div class="range-date" id="res-ontime">—</div><div class="range-note">Expected due date</div></div>
+              <div class="range-item"><div class="range-sublabel">⏳ LATE (+5 DAYS)</div><div class="range-date" id="res-late">—</div><div class="range-note">Consult vet if overdue</div></div>
+            </div>
+          </div>
+
+          <div class="countdown-box">
+            <div class="range-header">COUNTDOWN</div>
+            <div class="countdown-inner">
+              <div class="detail-item"><span class="detail-label">DAYS UNTIL DUE DATE</span><span class="detail-value highlight" id="res-countdown" style="font-size:22px">—</span></div>
+              <div class="detail-item"><span class="detail-label">START WATCHING (−5)</span><span class="detail-value" id="res-watch">—</span></div>
+              <div class="detail-item"><span class="detail-label">WEEK DUE</span><span class="detail-value" id="res-week">—</span></div>
+            </div>
+          </div>
+
+          <div class="gestation-note">
+            <strong>Note:</strong> Gestation lengths are averages — <strong>Nigerian Dwarf</strong> does average 145 days (range 143–148), <strong>standard breeds</strong> average 150 days (range 147–155). Begin monitoring 5 days before the due date. If a doe goes more than 5 days overdue, consult your veterinarian.
+          </div>
+        </div>
+
+        <!-- Multi doe tracker -->
+        <div class="multi-section" style="margin-top:20px">
+          <div class="multi-header">
+            <span>MULTIPLE DOE TRACKER</span>
+            <button class="add-doe-btn" onclick="addDoe()">+ ADD DOE</button>
+          </div>
+          <div class="doe-list" id="doe-list">
+            <div class="doe-placeholder">Click "+ Add Doe" to track kidding dates for multiple does at once.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    Miniature breeds average 145 days (range 143–148) · Standard breeds average 150 days (range 147–155) · For reference only
+    <br><span style="color:#444">© Rustic Back Acres · Brighton, TN · All rights reserved · rusticbackacres.com</span>
+  </footer>
+</div>
+
+<script>
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DOW=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const DAYS={mini:145,std:150};
+const YEAR_MIN=2010, YEAR_MAX=2080;
+
+let currentBreed='mini', doeCount=0;
+let currentYear=new Date().getFullYear();
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+(function init(){
+  // Populate day dropdown
+  const daysel=document.getElementById('sel-day');
+  for(let d=1;d<=31;d++){const o=document.createElement('option');o.value=d;o.textContent=d;daysel.appendChild(o);}
+
+  // Populate hidden year select
+  const ysel=document.getElementById('sel-year');
+  for(let y=YEAR_MIN;y<=YEAR_MAX;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===currentYear)o.selected=true;ysel.appendChild(o);}
+
+  // Set today's defaults
+  const now=new Date();
+  document.getElementById('sel-month').value=now.getMonth();
+  document.getElementById('sel-day').value=now.getDate();
+  setYearDisplay(now.getFullYear());
+})();
+
+// ─── Year spinner ─────────────────────────────────────────────────────────────
+function setYearDisplay(y){
+  y=Math.max(YEAR_MIN,Math.min(YEAR_MAX,y));
+  currentYear=y;
+  const disp=document.getElementById('year-display');
+  disp.textContent=y;
+  disp.classList.add('changed');
+  setTimeout(()=>disp.classList.remove('changed'),300);
+  document.getElementById('sel-year').value=y;
+  autoCalc();
+}
+function changeYear(dir){ setYearDisplay(currentYear+dir); }
+
+// Scroll wheel on year spinner
+document.querySelector('.year-spinner').addEventListener('wheel',function(e){
+  e.preventDefault();
+  changeYear(e.deltaY<0?1:-1);
+},{passive:false});
+
+// ─── Breed ────────────────────────────────────────────────────────────────────
+function setBreed(b){
+  currentBreed=b;
+  document.getElementById('btn-mini').classList.toggle('active',b==='mini');
+  document.getElementById('btn-std').classList.toggle('active',b==='std');
+  autoCalc(); updateAllDoes();
+}
+
+// ─── Auto calc ────────────────────────────────────────────────────────────────
+function autoCalc(){ calculate(); }
+
+// ─── Date helpers ─────────────────────────────────────────────────────────────
+function addDays(base,n){const d=new Date(base);d.setDate(d.getDate()+n);return d;}
+function daysUntil(t){const today=new Date();today.setHours(0,0,0,0);const td=new Date(t);td.setHours(0,0,0,0);return Math.ceil((td-today)/86400000);}
+function fmt(d,dow){return dow?`${DOW[d.getDay()]}, ${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`:`${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;}
+function fmtShort(d){return`${MONTHS[d.getMonth()].slice(0,3)} ${d.getDate()}, ${d.getFullYear()}`;}
+function weekOf(d){const mo=new Date(d);mo.setDate(d.getDate()-d.getDay()+1);const su=new Date(mo);su.setDate(mo.getDate()+6);return`${MONTHS[mo.getMonth()].slice(0,3)} ${mo.getDate()} – ${MONTHS[su.getMonth()].slice(0,3)} ${su.getDate()}`;}
+
+// ─── Calculate ────────────────────────────────────────────────────────────────
+function calculate(){
+  const month=parseInt(document.getElementById('sel-month').value);
+  const day=parseInt(document.getElementById('sel-day').value);
+  const year=currentYear;
+  if(!day||day<1||day>31) return;
+  const bred=new Date(year,month,day);
+  if(isNaN(bred.getTime())) return;
+
+  const g=DAYS[currentBreed];
+  const due=addDays(bred,g),early=addDays(due,-5),late=addDays(due,5);
+  const cd=daysUntil(due),wi=daysUntil(early);
+
+  document.getElementById('result-area').classList.remove('hidden');
+  document.getElementById('res-date').textContent=fmt(due,true);
+  document.getElementById('res-bred').textContent=fmt(bred,true);
+  document.getElementById('res-breed').textContent=currentBreed==='mini'?'Miniature Breed':'Standard Breed';
+  document.getElementById('res-days').textContent=g+' days';
+  document.getElementById('res-dow').textContent=DOW[due.getDay()];
+  document.getElementById('res-early').textContent=fmt(early,true);
+  document.getElementById('res-ontime').textContent=fmt(due,true);
+  document.getElementById('res-late').textContent=fmt(late,true);
+
+  const cdEl=document.getElementById('res-countdown');
+  if(cd<0){cdEl.textContent=Math.abs(cd)+' days ago';cdEl.style.color='var(--muted)';}
+  else if(cd===0){cdEl.textContent='TODAY! 🍼';cdEl.style.color='var(--green-lt)';}
+  else{cdEl.textContent=cd+' days';cdEl.style.color=cd<=14?'var(--amber)':'var(--off)';}
+
+  const wEl=document.getElementById('res-watch');
+  if(wi<=0){wEl.textContent='NOW — watch closely!';wEl.style.color='var(--amber)';}
+  else{wEl.textContent=`In ${wi} days (${fmtShort(early)})`;wEl.style.color='var(--muted)';}
+  document.getElementById('res-week').textContent=weekOf(due);
+  updateAllDoes();
+}
+
+// ─── Multiple doe tracker ─────────────────────────────────────────────────────
+function addDoe(){
+  doeCount++;
+  const id='doe-'+doeCount;
+  const list=document.getElementById('doe-list');
+  const ph=list.querySelector('.doe-placeholder');
+  if(ph) ph.remove();
+
+  const selMonth=parseInt(document.getElementById('sel-month').value)||0;
+  const selDay=parseInt(document.getElementById('sel-day').value)||1;
+  const selYear=currentYear;
+
+  const row=document.createElement('div');
+  row.className='doe-row'; row.id=id;
+
+  // Build month options
+  const monthOpts=MONTHS.map((m,i)=>`<option value="${i}"${i===selMonth?' selected':''}>${m.slice(0,3)}</option>`).join('');
+  // Build day options
+  let dayOpts='';for(let d=1;d<=31;d++)dayOpts+=`<option value="${d}"${d===selDay?' selected':''}>${d}</option>`;
+
+  row.innerHTML=`
+    <input type="text" class="doe-input doe-name-input" placeholder="Doe name" oninput="updateDoe('${id}')"/>
+    <select class="doe-input" style="width:72px" onchange="updateDoe('${id}')">${monthOpts}</select>
+    <select class="doe-input" style="width:56px" onchange="updateDoe('${id}')">${dayOpts}</select>
+    <div class="doe-yr-spin" id="${id}-yr-spin">
+      <button class="doe-yr-arrow" onclick="doeYrChange('${id}',1)">▲</button>
+      <div class="doe-yr-val" id="${id}-yr-val">${selYear}</div>
+      <button class="doe-yr-arrow" onclick="doeYrChange('${id}',-1)">▼</button>
+    </div>
+    <div class="doe-result" id="${id}-result">—</div>
+    <button class="remove-btn" onclick="removeDoe('${id}')" title="Remove">✕</button>`;
+
+  // Store year as data attr
+  row.dataset.year=selYear;
+  list.appendChild(row);
+  updateDoe(id);
+}
+
+function doeYrChange(id,dir){
+  const row=document.getElementById(id);
+  let y=parseInt(row.dataset.year||currentYear)+dir;
+  y=Math.max(YEAR_MIN,Math.min(YEAR_MAX,y));
+  row.dataset.year=y;
+  document.getElementById(id+'-yr-val').textContent=y;
+  updateDoe(id);
+}
+
+function updateDoe(id){
+  const row=document.getElementById(id); if(!row) return;
+  const sels=row.querySelectorAll('select');
+  const month=parseInt(sels[0].value);
+  const day=parseInt(sels[1].value);
+  const year=parseInt(row.dataset.year||currentYear);
+  const res=document.getElementById(id+'-result');
+  if(!day||day<1||day>31){res.textContent='—';return;}
+  const bred=new Date(year,month,day);
+  if(isNaN(bred.getTime())){res.textContent='—';return;}
+  const due=addDays(bred,DAYS[currentBreed]);
+  const cd=daysUntil(due);
+  const cdStr=cd<0?`${Math.abs(cd)}d ago`:cd===0?'TODAY!🍼':`${cd}d away`;
+  res.innerHTML=`Kidding: <span class="doe-kidding">${fmtShort(due)}</span> <span style="color:var(--muted);font-size:12px">(${cdStr})</span>`;
+}
+
+function updateAllDoes(){ document.querySelectorAll('.doe-row').forEach(r=>updateDoe(r.id)); }
+
+function removeDoe(id){
+  const row=document.getElementById(id); if(row) row.remove();
+  const list=document.getElementById('doe-list');
+  if(list.children.length===0){
+    doeCount=0;
+    list.innerHTML='<div class="doe-placeholder">Click "+ Add Doe" to track kidding dates for multiple does at once.</div>';
+  }
+}
+
+window.addEventListener('load',()=>calculate());
+</script>
+</body>
+</html>

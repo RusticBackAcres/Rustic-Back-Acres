@@ -1,0 +1,14 @@
+[build]
+  publish = "."
+
+[[plugins]]
+  package = "@netlify/plugin-gatsby"
+
+[identity]
+  external_providers = []
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"

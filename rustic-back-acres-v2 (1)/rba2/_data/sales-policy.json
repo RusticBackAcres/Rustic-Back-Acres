@@ -1,0 +1,28 @@
+{
+  "general": [
+    "We reserve the right to retain any animal of any breeding at any time.",
+    "If you've bought a goat or cattle from us and decide to sell, it is required that you give us first right of refusal.",
+    "All animals are healthy when they leave our farm, but we cannot guarantee their health once they leave our care. They often experience stress when traveling to a new place, changes in hay type, weaning, or other unforeseen variables. If something happens to them during the buyer's or transporter's care, Rustic Back Acres and/or its proprietors will not be responsible.",
+    "Animals are sold on a first come, first served basis. They will be available to the first person that places a deposit.",
+    "We will not sell a single animal if it will not be housed with at least one other animal of the same species.",
+    "All animals must be picked up or transported within 15 days of purchase, unless an agreed-upon date was made. Animals not picked up within 15 days will be relisted for sale and the deposit will be forfeited."
+  ],
+  "deposits": [
+    "In order to hold an animal, a deposit of half the purchase price must be made. Deposits are non-refundable.",
+    "The deposit covers the cost of housing and feeding the animal while being held, and compensates us for the time in which the animal could have been sold to someone else should the buyer back out.",
+    "The balance is due before the animal(s) leaves our farm.",
+    "If something happens to the animal while in our care, we will refund the deposit or apply it toward another animal."
+  ],
+  "shipping": [
+    "If an animal is going to be ground shipped through a transporter and/or you live outside of Tennessee, all fees associated with this — including shipping costs, CVIs, vet fees, testing, etc. — are the responsibility of the buyer.",
+    "If you have never had an animal transported and would like help finding transport, please let me know — I'd be glad to help!"
+  ],
+  "goats": [
+    "Our herd is tested annually for CAE, CL, and Johne's.",
+    "All kids receive Vitamin E with Selenium gel at birth and colostrum for the first 24 hours.",
+    "All kids are bottle fed. We sell kids on the bottle and only guarantee that they are accustomed to taking the bottle. The buyer understands that all responsibilities of proper care of the kids is on them.",
+    "All goats will be disbudded, tattooed, up to date on CD&T (if appropriate age), hooves trimmed, dewormed, etc. and come with registration papers or kids application for registration.",
+    "Registration papers will not be provided for wethers."
+  ],
+  "goat_disclaimer": "We do not guarantee: milking ease of udders, teat length, teat placement, conformation, quality, scurs, or height."
+}

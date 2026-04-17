@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Bucks — Rustic Back Acres</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .show-record-row { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:.5rem; padding:.6rem .75rem; border-bottom:1px solid var(--light-grey); font-size:.78rem; }
+    .show-record-row.header { background:var(--off-white); font-weight:600; font-size:.65rem; letter-spacing:.1em; text-transform:uppercase; color:var(--mid-grey); }
+    @media(max-width:600px){ .show-record-row{ grid-template-columns:1fr 1fr; } }
+  </style>
+</head>
+<body>
+<nav id="navbar"><div class="nav-inner">
+  <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="Rustic Back Acres Logo" class="nav-logo-img" /><div class="nav-logo-text"><span class="farm-name">Rustic Back Acres</span><span class="farm-loc">Brighton, Tennessee</span></div></a>
+  <ul class="nav-links">
+    <li class="nav-item"><a href="index.html">Home</a></li>
+    <li class="nav-item"><span>Animals ▾</span><ul class="dropdown"><li><a href="does.html">Our Bucks</a></li><li><a href="bucks.html">Our Bucks</a></li><li><a href="bucks-on-ice.html">Bucks on Ice</a></li><li><a href="reference.html">Reference Animals</a></li><li><a href="cattle.html">Miniature Cattle</a></li><li><a href="available.html">Available</a></li><li><a href="kidding.html">Kidding Schedule</a></li></ul></li>
+    <li class="nav-item"><a href="about.html">About</a></li>
+    <li class="nav-item"><span>Resources ▾</span><ul class="dropdown"><li><a href="resources.html#gestation">Gestation Calculator</a></li><li><a href="resources.html#milkstar">Milk Star Calculator</a></li></ul></li>
+    <li class="nav-item"><a href="sales-policy.html" style="color:var(--teal)">Sales Policy</a></li>
+    <li class="nav-item"><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div></nav>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a>
+  <span class="mobile-section-label">Animals</span>
+  <div class="mobile-sub"><a href="does.html">Our Bucks</a><a href="bucks.html">Our Bucks</a><a href="bucks-on-ice.html">Bucks on Ice</a><a href="reference.html">Reference Animals</a><a href="cattle.html">Miniature Cattle</a><a href="available.html">Available</a><a href="kidding.html">Kidding Schedule</a></div>
+  <a href="about.html">About</a>
+  <span class="mobile-section-label">Resources</span>
+  <div class="mobile-sub"><a href="resources.html#gestation">Gestation Calculator</a><a href="resources.html#milkstar">Milk Star Calculator</a></div>
+  <a href="sales-policy.html" style="color:var(--teal)">Sales Policy</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <span class="eyebrow">Herd Sires</span>
+    <h1 class="section-title" style="font-size:clamp(2.2rem,4.5vw,3.5rem)">Our <em>Does</em></h1>
+    <div class="teal-rule center"></div>
+    <p style="max-width:520px;margin:0 auto;font-family:var(--font-serif);font-size:1.05rem;color:var(--dark-grey);line-height:1.85">Listed oldest to youngest. DNA on file for all animals. Semen available on select bucks — see <a href='bucks-on-ice.html' style='color:var(--teal)'>Bucks on Ice</a>.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="animals-grid" id="bucks-grid">
+      <div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--mid-grey);font-family:var(--font-serif)">Loading...</div>
+    </div>
+  </div>
+</section>
+<div id="modal-container"></div>
+
+<footer><div class="container">
+  <div class="footer-inner">
+    <div class="footer-brand"><img src="images/logo.png" alt="Rustic Back Acres" class="footer-brand-logo" /><div class="fname">Rustic Back Acres</div><span class="floc">Brighton, Tennessee</span><p>ADGA and AGS registered Nigerian Dwarf goats in Brighton, Tennessee.</p></div>
+    <div class="footer-col"><h4>Animals</h4><ul><li><a href="does.html">Our Bucks</a></li><li><a href="bucks.html">Our Bucks</a></li><li><a href="bucks-on-ice.html">Bucks on Ice</a></li><li><a href="reference.html">Reference Animals</a></li><li><a href="cattle.html">Miniature Cattle</a></li><li><a href="available.html">Available</a></li></ul></div>
+    <div class="footer-col"><h4>More</h4><ul><li><a href="about.html">About</a></li><li><a href="kidding.html">Kidding Schedule</a></li><li><a href="resources.html">Resources</a></li><li><a href="sales-policy.html">Sales Policy</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Follow Along</h4><ul><li><a href="#" target="_blank">Instagram</a></li><li><a href="#" target="_blank">TikTok</a></li><li><a href="#" target="_blank">Facebook</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Rustic Back Acres · Brighton, Tennessee</span><span>ADGA &amp; AGS Performance Herd</span></div>
+</div></footer>
+
+<script src="js/main.js"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+function buildPhotos(a){
+  const photos=[];
+  for(let n=1;n<=5;n++){ if(a['photo'+n]) photos.push({src:a['photo'+n],cap:a['photo'+n+'_caption']||''}); }
+  return photos;
+}
+function buildCarouselHtml(photos){
+  if(!photos.length) return `<div class="carousel-slides"><div class="carousel-slide"><div class="slide-placeholder">Add Photo Here</div><div class="carousel-caption"></div></div></div><div class="carousel-dots"><button class="carousel-dot active"></button></div>`;
+  const slides = photos.map(p=>`<div class="carousel-slide">${p.src?`<img src="${p.src}" alt="" style="width:100%;height:100%;object-fit:cover"/>`:`<div class="slide-placeholder">Add Photo Here</div>`}<div class="carousel-caption">${p.cap}</div></div>`).join('');
+  const dots = photos.map((_,i)=>`<button class="carousel-dot ${i===0?'active':''}"></button>`).join('');
+  const btns = photos.length>1?`<button class="carousel-btn prev">&#8249;</button><button class="carousel-btn next">&#8250;</button>`:'';
+  return `<div class="carousel-slides">${slides}</div>${btns}<div class="carousel-dots">${dots}</div>`;
+}
+function buildPills(a){
+  const p=[];
+  if(a.titles) a.titles.split(',').forEach(t=>{if(t.trim())p.push(t.trim());});
+  if(a.dhir) p.push('DHIR Enrolled');
+  if(a.dna!==false) p.push('DNA on File');
+  return p.map(t=>`<span class="score-pill">${t}</span>`).join('');
+}
+function buildShowRows(records){
+  if(!records||!records.length) return '';
+  return `<div style="margin-bottom:1.25rem">
+    <span style="font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.5rem">Show Records</span>
+    <div style="border:1px solid var(--light-grey)">
+      <div class="show-record-row header"><span>Show</span><span>Date</span><span>Placement</span><span>Judge</span></div>
+      ${records.map(r=>`<div class="show-record-row"><span>${r.show_name||''}</span><span>${r.date||''}</span><span>${r.placement||''}</span><span>${r.judge||''}</span></div>`).join('')}
+    </div>
+  </div>`;
+}
+function buildCard(a,i){
+  const photos=buildPhotos(a);
+  const badge=a.titles?a.titles.split(',')[0].trim():'';
+  const badgeCls=badge&&(badge.includes('SG')||badge.includes('*M')||badge.includes('GCH'))?'badge-gold':'';
+  return `<article class="animal-card fade-in">
+  <div class="card-carousel">
+    ${buildCarouselHtml(photos)}
+    ${badge?`<span class="card-badge ${badgeCls}">${badge}</span>`:''}
+  </div>
+  <div class="card-body">
+    <h3 class="card-name">${a.call_name||'Add Name'}</h3>
+    ${a.reg_name?`<p class="card-reg">${a.reg_name}</p>`:''}
+    <p class="ags-number">AGS: ${a.ags_num||'Pending'}</p>
+    <div class="card-meta">
+      ${a.dob?`<div class="meta-item"><span class="meta-key">DOB</span><span class="meta-val">${a.dob}</span></div>`:''}
+      ${a.color?`<div class="meta-item"><span class="meta-key">Color</span><span class="meta-val">${a.color}</span></div>`:''}
+      ${a.la_score&&a.la_score!=='N/A'?`<div class="meta-item"><span class="meta-key">LA Score</span><span class="meta-val">${a.la_score}</span></div>`:''}
+    </div>
+    ${buildPills(a)?`<div class="card-scores">${buildPills(a)}</div>`:''}
+    <div class="card-actions">
+      <button class="btn btn-filled" style="font-size:.62rem;padding:.6rem 1.1rem" onclick="openModal('modal-buck-${i}')">Full Profile</button>
+      <a href="contact.html" class="btn btn-teal" style="font-size:.62rem;padding:.6rem 1.1rem">Inquire</a>
+    </div>
+    <div class="pedigree-strip"><div class="ped-parents">
+      <div class="ped-chip"><span>Sire</span>${a.sire||'Add Sire'}</div>
+      <div class="ped-chip"><span>Dam</span>${a.dam||'Add Dam'}</div>
+    </div></div>
+  </div>
+</article>`;
+}
+function buildModal(a,i){
+  const photos=buildPhotos(a);
+  return `<div class="modal-overlay" id="modal-buck-${i}">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('modal-buck-${i}').classList.remove('open');document.body.style.overflow=''">×</button>
+    <div class="modal-grid">
+      <div class="modal-carousel card-carousel">${buildCarouselHtml(photos)}</div>
+      <div class="modal-info">
+        <h2 style="font-family:var(--font-rustic);font-size:1.75rem;font-weight:400;letter-spacing:.04em;margin-bottom:.2rem">${a.call_name||''}</h2>
+        ${a.reg_name?`<p style="font-family:var(--font-serif);font-style:italic;font-size:.85rem;color:var(--mid-grey);margin-bottom:.15rem">${a.reg_name}</p>`:''}
+        <p style="font-size:.72rem;color:var(--mid-grey);margin-bottom:1.25rem">AGS: ${a.ags_num||'Pending'}</p>
+        <div class="card-meta" style="margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--light-grey)">
+          ${a.dob?`<div class="meta-item"><span class="meta-key">DOB</span><span class="meta-val">${a.dob}</span></div>`:''}
+          ${a.color?`<div class="meta-item"><span class="meta-key">Color</span><span class="meta-val">${a.color}</span></div>`:''}
+        </div>
+        <div style="margin-bottom:1.25rem">
+          <span style="font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.5rem">LA Score</span>
+          <div style="background:var(--off-white);border:1px solid var(--light-grey);padding:.6rem .85rem;font-size:.82rem;color:var(--dark-grey)">${a.la_score||'N/A — Add when appraised'}</div>
+        </div>
+        <div style="margin-bottom:1.25rem">
+          <span style="font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.5rem">Full Pedigree</span>
+          <div style="background:var(--off-white);border:1px solid var(--light-grey);border-left:3px solid var(--teal);padding:.85rem 1rem;font-size:.8rem;color:var(--dark-grey);line-height:1.85">
+            <div style="margin-bottom:.4rem"><strong style="color:var(--charcoal)">Sire:</strong> ${a.sire||'Add Sire'}</div>
+            <div style="padding-left:.85rem;font-size:.74rem;color:var(--mid-grey);margin-bottom:.2rem">Paternal Grandsire: ${a.pat_grandsire||'Add here'}</div>
+            <div style="padding-left:.85rem;font-size:.74rem;color:var(--mid-grey);margin-bottom:.65rem">Paternal Granddam: ${a.pat_granddam||'Add here'}</div>
+            <div style="margin-bottom:.4rem"><strong style="color:var(--charcoal)">Dam:</strong> ${a.dam||'Add Dam'}</div>
+            <div style="padding-left:.85rem;font-size:.74rem;color:var(--mid-grey);margin-bottom:.2rem">Maternal Grandsire: ${a.mat_grandsire||'Add here'}</div>
+            <div style="padding-left:.85rem;font-size:.74rem;color:var(--mid-grey)">Maternal Granddam: ${a.mat_granddam||'Add here'}</div>
+          </div>
+        </div>
+        ${buildShowRows(a.show_records)}
+        ${buildPills(a)?`<div class="card-scores" style="margin-bottom:1rem">${buildPills(a)}</div>`:''}
+        <div style="padding:.6rem .85rem;background:var(--teal-faint);border:1px solid rgba(13,140,126,.2);font-size:.7rem;color:var(--teal-dark);text-align:center;margin-bottom:.75rem">DNA on File · ADGA &amp; AGS Registered</div>
+        <div class="ped-parents">
+          <div class="ped-chip"><span>Sire</span>${a.sire||'Add Sire'}</div>
+          <div class="ped-chip"><span>Dam</span>${a.dam||'Add Dam'}</div>
+        </div>
+        <a href="contact.html" class="btn btn-filled" style="margin-top:1rem;width:100%;text-align:center;display:block">Inquire</a>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+function openModal(id){
+  const m=document.getElementById(id);
+  if(!m) return;
+  m.classList.add('open');
+  document.body.style.overflow='hidden';
+  m.querySelectorAll('.card-carousel').forEach(el=>{ if(!el.dataset.ci){ new Carousel(el); el.dataset.ci='1'; } });
+}
+document.addEventListener('click',e=>{ if(e.target.classList.contains('modal-overlay')){ e.target.classList.remove('open'); document.body.style.overflow=''; } });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.modal-overlay.open').forEach(m=>{ m.classList.remove('open'); document.body.style.overflow=''; }); });
+
+const DOE_FILES=['zeb','york','lightning','rebel','blaze','owen','wyatt','mayhem','legend','torch'];
+
+async function loadBucks(){
+  const grid=document.getElementById('bucks-grid');
+  const mc=document.getElementById('modal-container');
+  const does=[];
+  for(const f of DOE_FILES){
+    try{ const r=await fetch(`/_data/bucks/${f}.json`); if(r.ok){ const d=await r.json(); d._f=f; does.push(d); } }catch(e){}
+  }
+  if(!does.length){
+    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--mid-grey)"><p style="font-family:var(--font-serif);font-size:1.1rem;margin-bottom:1rem">No does added yet.</p><p style="font-size:.82rem">Go to <strong>/admin</strong> → <strong>Our Bucks</strong> to add your does.</p></div>`;
+    return;
+  }
+  does.sort((a,b)=>(a.sort_order||99)-(b.sort_order||99));
+  grid.innerHTML=does.map((a,i)=>buildCard(a,i)).join('');
+  mc.innerHTML=does.map((a,i)=>buildModal(a,i)).join('');
+  grid.querySelectorAll('.card-carousel').forEach(el=>new Carousel(el));
+  setTimeout(()=>grid.querySelectorAll('.fade-in').forEach(el=>el.classList.add('visible')),100);
+}
+loadBucks();
+</script>
+</body>
+</html>

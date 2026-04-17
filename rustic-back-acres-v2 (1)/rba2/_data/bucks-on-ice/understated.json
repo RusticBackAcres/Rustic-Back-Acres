@@ -1,0 +1,17 @@
+{
+  "call_name": "Understated",
+  "reg_name": "Add Full Registered Name",
+  "dob": "",
+  "color": "",
+  "sire": "",
+  "dam": "",
+  "titles": "GCH, ++*B",
+  "collections": [
+    {
+      "label": "Collection",
+      "details": "Add details here"
+    }
+  ],
+  "straws": "10",
+  "sort_order": 5
+}

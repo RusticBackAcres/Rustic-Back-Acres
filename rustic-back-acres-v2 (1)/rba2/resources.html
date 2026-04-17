@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resources — Rustic Back Acres</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .calc-tabs { display:flex; border-bottom:2px solid var(--light-grey); margin-bottom:0; }
+    .calc-tab { font-family:var(--font-body); font-size:0.72rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; padding:0.9rem 1.75rem; border:none; background:none; color:var(--mid-grey); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all 0.28s ease; }
+    .calc-tab.active { color:var(--teal); border-bottom-color:var(--teal); }
+    .calc-tab:hover { color:var(--teal); }
+    .calc-panel { display:none; }
+    .calc-panel.active { display:block; }
+    iframe { display:block; width:100%; border:none; border-top:3px solid var(--teal); }
+  </style>
+</head>
+<body>
+<!-- NAV -->
+<nav id="navbar"><div class="nav-inner">
+  <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="Rustic Back Acres Logo" class="nav-logo-img" /><div class="nav-logo-text"><span class="farm-name">Rustic Back Acres</span><span class="farm-loc">Brighton, Tennessee</span></div></a>
+  <ul class="nav-links">
+    <li class="nav-item"><a href="index.html">Home</a></li>
+    <li class="nav-item"><span>Animals ▾</span><ul class="dropdown"><li><a href="does.html">Our Does</a></li><li><a href="bucks.html">Our Bucks</a></li><li><a href="bucks-on-ice.html">Bucks on Ice</a></li><li><a href="reference.html">Reference Animals</a></li><li><a href="cattle.html">Miniature Cattle</a></li><li><a href="available.html">Available</a></li><li><a href="kidding.html">Kidding Schedule</a></li></ul></li>
+    <li class="nav-item"><a href="about.html">About</a></li>
+    <li class="nav-item"><span>Resources ▾</span><ul class="dropdown"><li><a href="resources.html#gestation">Gestation Calculator</a></li><li><a href="resources.html#milkstar">Milk Star Calculator</a></li></ul></li>
+    <li class="nav-item"><a href="sales-policy.html" style="color:var(--teal)">Sales Policy</a></li>
+    <li class="nav-item"><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div></nav>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a>
+  <span class="mobile-section-label">Animals</span>
+  <div class="mobile-sub"><a href="does.html">Our Does</a><a href="bucks.html">Our Bucks</a><a href="bucks-on-ice.html">Bucks on Ice</a><a href="reference.html">Reference Animals</a><a href="cattle.html">Miniature Cattle</a><a href="available.html">Available</a><a href="kidding.html">Kidding Schedule</a></div>
+  <a href="about.html">About</a>
+  <span class="mobile-section-label">Resources</span>
+  <div class="mobile-sub"><a href="resources.html#gestation">Gestation Calculator</a><a href="resources.html#milkstar">Milk Star Calculator</a></div>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <span class="eyebrow">Tools</span>
+    <h1 class="section-title" style="font-size:clamp(2.2rem,4.5vw,3.5rem)">Farm <em>Resources</em></h1>
+    <div class="teal-rule center"></div>
+  </div>
+</div>
+
+<section class="section" id="calculators">
+  <div class="container">
+    <div class="calc-tabs" id="calc-tab-row">
+      <button class="calc-tab active" onclick="showCalc('gestation', this)">Goat Gestation Calculator</button>
+      <button class="calc-tab" onclick="showCalc('milkstar', this)">Milk Star Calculator</button>
+    </div>
+    <div class="calc-panel active" id="panel-gestation">
+      <iframe src="goat-gestation-calculator.html" style="min-height:720px" title="Goat Gestation Calculator" id="gestation"></iframe>
+    </div>
+    <div class="calc-panel" id="panel-milkstar">
+      <iframe src="milk-star-calculator.html" style="min-height:920px" title="Milk Star Calculator" id="milkstar"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer><div class="container">
+  <div class="footer-inner">
+    <div class="footer-brand"><img src="images/logo.png" alt="Rustic Back Acres" class="footer-brand-logo" /><div class="fname">Rustic Back Acres</div><span class="floc">Brighton, Tennessee</span><p>ADGA and AGS registered Nigerian Dwarf goats bred for performance, type, and milk production in Brighton, Tennessee.</p></div>
+    <div class="footer-col"><h4>Animals</h4><ul><li><a href="does.html">Our Does</a></li><li><a href="bucks.html">Our Bucks</a></li><li><a href="bucks-on-ice.html">Bucks on Ice</a></li><li><a href="reference.html">Reference Animals</a></li><li><a href="cattle.html">Miniature Cattle</a></li><li><a href="available.html">Available</a></li></ul></div>
+    <div class="footer-col"><h4>More</h4><ul><li><a href="about.html">About</a></li><li><a href="kidding.html">Kidding Schedule</a></li><li><a href="resources.html">Resources</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Follow Along</h4><ul><li><a href="#" target="_blank">Instagram</a></li><li><a href="#" target="_blank">TikTok</a></li><li><a href="#" target="_blank">Facebook</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Rustic Back Acres · Brighton, Tennessee</span><span>ADGA &amp; AGS Performance Herd</span></div>
+</div></footer>
+
+<script src="js/main.js"></script>
+<script>
+function showCalc(which, btn) {
+  document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.calc-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + which).classList.add('active');
+  btn.classList.add('active');
+  // Handle URL hash
+  if (window.history) window.history.replaceState(null, '', '#' + which);
+}
+// Handle direct hash links
+window.addEventListener('load', function() {
+  const hash = window.location.hash.replace('#','');
+  if (hash === 'milkstar') {
+    showCalc('milkstar', document.querySelectorAll('.calc-tab')[1]);
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Milk Star Calculator — Rustic Back Acres</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+    :root {
+    --black:     #1A1816;
+    --deep:      #2A2826;
+    --surface:   #F2F0EC;
+    --card:      #FAFAF8;
+    --border:    #D4D0C8;
+    --border-lt: #C0BBA8;
+    --white:     #2A2826;
+    --off:       #4A4844;
+    --muted:     #9A9690;
+    --navy:      #0A6B60;
+    --navy-lt:   #0D8C7E;
+    --green:     #2a7a3a;
+    --green-lt:  #3a9a4a;
+    --red:       #8a2020;
+    --amber:     #a07c2a;
+    --input-bg:  #FAFAF8;
+    --page-bg:   #F2F0EC;
+    --teal:      #0A6B60;
+    --teal-lt:   #0D8C7E;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; background: var(--page-bg); color: var(--white); min-height: 100vh; }
+  .wrapper { max-width: 1100px; margin: 0 auto; }
+
+  /* Header */
+  .top-bar { background: var(--black); text-align: center; padding: 18px 24px 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-bottom: 2px solid var(--navy-lt); }
+  .farm-name { font-family: 'Cinzel', Georgia, serif; font-size: clamp(22px,4vw,36px); font-weight: 700; letter-spacing: 0.12em; color: var(--white); }
+  .farm-sub { font-style: italic; color: var(--muted); font-size: 14px; letter-spacing: 0.05em; }
+  .nav-bar { background: var(--deep); padding: 10px 24px; display: flex; justify-content: center; border-bottom: 1px solid var(--border); }
+  .nav-item { font-family: 'Cinzel', Georgia, serif; font-size: 13px; letter-spacing: 0.15em; color: var(--off); font-weight: 600; }
+
+  /* Tabs */
+  .tab-row { display: flex; background: var(--black); border-bottom: 2px solid var(--border); }
+  .tab-btn { flex: 1; padding: 12px 16px; background: transparent; border: none; border-bottom: 3px solid transparent; color: var(--muted); font-family: 'Cinzel', Georgia, serif; font-size: 13px; letter-spacing: 0.1em; cursor: pointer; transition: all 0.15s; }
+  .tab-btn.active { color: var(--white); border-bottom: 3px solid var(--navy-lt); background: var(--surface); }
+  .tab-btn:hover:not(.active) { color: var(--off); }
+
+  /* Layout */
+  .body { display: flex; gap: 20px; padding: 20px; flex-wrap: wrap; align-items: flex-start; }
+  .card { flex: 1 1 340px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 22px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+  .results-pane { flex: 1 1 340px; }
+
+  /* Sections */
+  .section { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .section:last-of-type { border-bottom: none; margin-bottom: 0; }
+  .sec-label { font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.18em; color: var(--off); margin-bottom: 10px; font-weight: 600; text-transform: uppercase; }
+
+  /* Helper pill */
+  .helper-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(42,61,107,0.25); border: 1px solid rgba(58,84,144,0.4); border-radius: 20px; padding: 4px 12px; font-size: 12px; color: var(--navy-lt); font-family: 'Cinzel', Georgia, serif; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .helper-pill.green { background: rgba(74,122,42,0.2); border-color: rgba(92,158,56,0.4); color: var(--green-lt); }
+  .helper-pill.teal  { background: rgba(42,107,107,0.2); border-color: rgba(58,144,144,0.4); color: var(--teal-lt); }
+
+  /* Auto-calc strip */
+  .auto-strip { background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: 10px 14px; margin-top: 8px; display: flex; flex-wrap: wrap; gap: 16px; }
+  .auto-item { display: flex; flex-direction: column; gap: 2px; }
+  .auto-lbl { font-family: 'Cinzel', Georgia, serif; font-size: 10px; letter-spacing: 0.12em; color: var(--muted); }
+  .auto-val { font-size: 14px; color: var(--white); font-weight: 600; }
+  .auto-val.highlight { color: var(--amber); }
+  .auto-val.blue { color: var(--navy-lt); }
+  .auto-val.teal { color: var(--teal-lt); }
+
+  .note { font-size: 12px; color: var(--muted); font-style: italic; line-height: 1.65; margin-top: 8px; }
+  .note strong { color: var(--off); font-style: normal; }
+
+  /* Inputs */
+  .toggle-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .toggle-btn { flex: 1; padding: 10px 12px; background: var(--deep); border: 1.5px solid var(--border); border-radius: 6px; color: var(--muted); font-family: 'Crimson Text', serif; font-size: 14px; cursor: pointer; transition: all 0.15s; }
+  .toggle-btn:hover { border-color: var(--navy-lt); color: var(--off); }
+  .toggle-btn.active { background: var(--navy); border-color: var(--navy-lt); color: var(--white); }
+
+  .row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .field { display: flex; flex-direction: column; font-size: 12px; color: var(--muted); gap: 5px; flex: 1; margin-bottom: 8px; font-family: 'Cinzel', Georgia, serif; letter-spacing: 0.07em; min-width: 100px; }
+  select, input[type="number"], input[type="date"] {
+    font-family: 'Crimson Text', serif; font-size: 15px; padding: 8px 10px;
+    background: var(--input-bg); border: 1px solid var(--border); border-radius: 5px;
+    color: var(--white); outline: none; width: 100%; transition: border-color 0.15s;
+    color-scheme: light;
+  }
+  select:focus, input:focus { border-color: var(--navy-lt); }
+
+  .calc-btn { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--navy), var(--navy-lt)); color: #fff; border: none; border-radius: 6px; font-size: 14px; font-family: 'Cinzel', Georgia, serif; font-weight: 600; letter-spacing: 0.12em; cursor: pointer; box-shadow: 0 3px 12px rgba(42,61,107,0.4); margin-top: 8px; transition: opacity 0.15s; }
+  .calc-btn:hover { opacity: 0.9; }
+
+  /* Results */
+  .placeholder { background: var(--card); border: 2px dashed var(--border); border-radius: 10px; padding: 52px 32px; text-align: center; }
+  .placeholder-star { font-size: 52px; margin-bottom: 14px; opacity: 0.15; }
+  .placeholder p { font-style: italic; color: var(--muted); font-size: 15px; line-height: 1.7; }
+
+  .result-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+  .verdict { display: flex; align-items: center; gap: 16px; padding: 20px 22px; color: #fff; }
+  .verdict.pass { background: linear-gradient(135deg, var(--green), var(--green-lt)); }
+  .verdict.fail { background: linear-gradient(135deg, #6b1a1a, var(--red)); }
+  .verdict-star { font-size: 40px; line-height: 1; flex-shrink: 0; }
+  .verdict-title { font-family: 'Cinzel', Georgia, serif; font-weight: 700; font-size: 22px; letter-spacing: 0.05em; }
+  .verdict-sub { font-size: 13px; opacity: 0.85; margin-top: 3px; font-style: italic; }
+
+  .buck-note { padding: 12px 20px; border-left: 4px solid; background: rgba(0,0,0,0.35); font-size: 13px; line-height: 1.65; }
+  .buck-note.good { border-color: var(--green-lt); color: #b8ffb0; }
+  .buck-note.warn { border-color: #a84838; color: #ffcfb8; }
+
+  .breakdown { padding: 18px 20px; border-bottom: 1px solid var(--border); }
+  .comp-row { margin-bottom: 14px; }
+  .comp-head { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; font-size: 13px; font-family: 'Cinzel', Georgia, serif; letter-spacing: 0.05em; }
+  .icon-pass { color: var(--green-lt); font-weight: 700; }
+  .icon-fail { color: var(--red); font-weight: 700; }
+  .comp-name { color: var(--white); }
+  .comp-min { margin-left: auto; color: var(--muted); font-size: 11px; }
+  .bar-track { height: 8px; background: #1a1a1a; border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+  .bar-fill.pass { background: linear-gradient(90deg, var(--green), var(--green-lt)); }
+  .bar-fill.fail { background: linear-gradient(90deg, #6b1a1a, var(--red)); }
+  .comp-num { font-size: 13px; }
+  .val-pass { color: var(--green-lt); font-weight: 700; }
+  .val-fail { color: var(--red); font-weight: 700; }
+  .val-unit { color: var(--muted); }
+  .val-short { color: var(--amber); margin-left: 8px; font-style: italic; font-size: 12px; }
+
+  .dcr-row { padding: 12px 20px; border-bottom: 1px solid var(--border); font-size: 13px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+  .dcr-label { color: var(--off); font-weight: 700; margin-right: 4px; font-family: 'Cinzel', Georgia, serif; letter-spacing: 0.06em; }
+
+  .min-table { margin: 16px 20px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; font-size: 13px; }
+  .min-table-head { background: var(--black); padding: 8px 14px; font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.14em; color: var(--off); font-weight: 600; border-bottom: 1px solid var(--border); }
+  .min-table-row { display: flex; justify-content: space-between; padding: 7px 14px; border-top: 1px solid var(--border); }
+  .min-table-row span:first-child { color: var(--muted); }
+  .min-table-row span:last-child { color: var(--white); font-weight: 600; }
+
+  .info-box { margin: 0 20px 20px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .info-toggle { width: 100%; padding: 10px 14px; background: var(--black); border: none; color: var(--off); font-family: 'Cinzel', Georgia, serif; font-size: 12px; letter-spacing: 0.1em; cursor: pointer; text-align: left; font-weight: 600; }
+  .info-toggle:hover { color: var(--white); }
+  .info-body { padding: 10px 16px 14px; line-height: 1.75; color: var(--off); font-size: 13px; display: none; }
+  .info-body.open { display: block; }
+  .info-body p { margin-bottom: 10px; }
+  .info-body p:last-child { margin-bottom: 0; }
+  .info-body strong { color: var(--white); }
+
+  /* One-day */
+  .pt-row { margin-bottom: 13px; }
+  .pt-head { display: flex; justify-content: space-between; margin-bottom: 3px; }
+  .pt-lbl { color: var(--off); font-size: 13px; font-family: 'Cinzel', Georgia, serif; letter-spacing: 0.05em; }
+  .pt-val { color: var(--amber); font-weight: 700; font-size: 14px; }
+  .pt-desc { font-size: 12px; color: var(--muted); font-style: italic; }
+  .total-row { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 6px; }
+  .total-head { display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .total-lbl { color: var(--white); font-weight: 700; font-family: 'Cinzel', Georgia, serif; letter-spacing: 0.08em; }
+  .total-val { font-weight: 700; font-size: 20px; }
+  .total-val.pass { color: var(--green-lt); }
+  .total-val.fail { color: var(--red); }
+  .about-box { margin: 0 20px 20px; border: 1px solid var(--border); border-radius: 6px; }
+  .about-title { font-family: 'Cinzel', Georgia, serif; font-size: 11px; letter-spacing: 0.18em; color: var(--off); padding: 12px 16px 4px; font-weight: 600; }
+  .about-text { padding: 4px 16px 14px; line-height: 1.75; color: var(--off); font-size: 13px; }
+
+  footer { text-align: center; padding: 16px; font-size: 12px; color: var(--muted); font-style: italic; border-top: 1px solid var(--border); line-height: 1.8; background: var(--black); }
+  .hidden { display: none !important; }
+  @media (max-width:600px) { .row { flex-direction: column; } }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  
+
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="switchTab('continuous',this)">305-DAY / CONTINUOUS TEST</button>
+    <button class="tab-btn" onclick="switchTab('oneday',this)">ONE-DAY MILKING COMPETITION</button>
+  </div>
+
+  <div class="body">
+
+    <!-- ══ 305-DAY INPUTS ══ -->
+    <div class="card" id="card-continuous">
+
+      <!-- Breed -->
+      <div class="section">
+        <div class="sec-label">Breed Type</div>
+        <div class="toggle-row">
+          <button class="toggle-btn active" id="btn-mini" onclick="setBreed(true)">🐐 Miniature (Nigerian Dwarf)</button>
+          <button class="toggle-btn" id="btn-std" onclick="setBreed(false)">🐐 Standard Breed</button>
+        </div>
+      </div>
+
+      <!-- DOB → auto-age -->
+      <div class="section">
+        <div class="sec-label">Doe Information</div>
+        <div class="helper-pill blue">📅 Optional — auto-calculates age &amp; DIM</div>
+
+        <div class="row">
+          <div class="field">Date of Birth
+            <input type="date" id="dob" onchange="autoFromDates()"/>
+          </div>
+          <div class="field">Date of Freshening
+            <input type="date" id="fresh-date" onchange="autoFromDates()"/>
+          </div>
+          <div class="field">Test End Date (or today)
+            <input type="date" id="test-end" onchange="autoFromDates()"/>
+          </div>
+        </div>
+
+        <!-- Auto-calculated strip -->
+        <div class="auto-strip" id="auto-strip" style="display:none">
+          <div class="auto-item">
+            <span class="auto-lbl">AGE AT FRESHENING</span>
+            <span class="auto-val blue" id="auto-age">—</span>
+          </div>
+          <div class="auto-item">
+            <span class="auto-lbl">DAYS IN MILK (DIM)</span>
+            <span class="auto-val teal" id="auto-dim">—</span>
+          </div>
+          <div class="auto-item">
+            <span class="auto-lbl">DOE'S CURRENT AGE</span>
+            <span class="auto-val" id="auto-current-age">—</span>
+          </div>
+        </div>
+        <div class="note">Enter dates above to auto-fill age at freshening and DIM, or set them manually below.</div>
+      </div>
+
+      <!-- Age — manual or auto-filled -->
+      <div class="section">
+        <div class="sec-label">Age at Freshening</div>
+        <div class="row">
+          <div class="field">Years
+            <select id="age-years">
+              <option>0</option><option>1</option><option selected>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6</option><option>7</option>
+              <option>8</option><option>9</option><option>10</option>
+            </select>
+          </div>
+          <div class="field">Months
+            <select id="age-months">
+              <option selected>0</option><option>1</option><option>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6</option><option>7</option>
+              <option>8</option><option>9</option><option>10</option><option>11</option>
+            </select>
+          </div>
+        </div>
+        <div class="note">ⓘ "2-00 or younger" covers yearlings. Uses exact month-by-month values from the <strong>2025 ADGA Guidebook</strong>.</div>
+      </div>
+
+      <!-- Production -->
+      <div class="section">
+        <div class="sec-label">305-Day Lactation Production</div>
+        <div class="field">Milk (lbs)<input type="number" id="milk" min="0" step="1" placeholder="e.g. 650"/></div>
+        <div class="field">Butterfat (lbs)<input type="number" id="bf" min="0" step="0.01" placeholder="e.g. 34.50"/></div>
+        <div class="field">Protein (lbs)<input type="number" id="protein" min="0" step="0.01" placeholder="e.g. 21.00"/></div>
+      </div>
+
+      <!-- Test type + DCR -->
+      <div class="section">
+        <div class="sec-label">Test / Program Type</div>
+        <div class="field">Test Type
+          <select id="test-type" onchange="onTestTypeChange()">
+            <option value="AR_DHIR20">AR – DHIR 20 (Supervised, monthly)</option>
+            <option value="AR_ITP">AR – ITP 00/01/02/21/22/23</option>
+            <option value="AR_OS40">AR – Owner Sampler OS-40 (AR)</option>
+            <option value="ST_OS40">ST – Owner Sampler OS-40 (ST)</option>
+            <option value="ST_PROG">ST – Progeny-based</option>
+          </select>
+        </div>
+        <div id="dcr-field" style="margin-top:6px">
+          <div class="field">DCR (Data Collection Rating)
+            <input type="number" id="dcr" min="0" max="100" step="1" placeholder="e.g. 82"/>
+          </div>
+          <div class="note" id="dcr-note">Minimum DCR of 75 required · DCR 93+ required for Top Ten recognition</div>
+        </div>
+        <div class="note hidden" id="dcr-na-note">ⓘ DCR is <strong>not required</strong> for this test type. Star eligibility is based on production minimums alone.</div>
+        <div class="note hidden" id="extra-reqs-note" style="color:#ffcfb8;border-left:3px solid #a84838;padding-left:8px;margin-top:8px"></div>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">CALCULATE STAR ELIGIBILITY</button>
+    </div>
+
+    <!-- ══ ONE-DAY INPUTS ══ -->
+    <div class="card hidden" id="card-oneday">
+      <div class="section">
+        <div class="sec-label">Breed Type</div>
+        <div class="toggle-row">
+          <button class="toggle-btn active" id="btn-mini-od" onclick="setBreedOD(true)">🐐 Miniature (Nigerian Dwarf)</button>
+          <button class="toggle-btn" id="btn-std-od" onclick="setBreedOD(false)">🐐 Standard Breed</button>
+        </div>
+      </div>
+
+      <!-- DOB for one-day age display -->
+      <div class="section">
+        <div class="sec-label">Doe Information (Optional)</div>
+        <div class="helper-pill blue">📅 Optional — shows doe's current age</div>
+        <div class="row">
+          <div class="field">Date of Birth
+            <input type="date" id="od-dob" onchange="autoFromDatesOD()"/>
+          </div>
+          <div class="field">Date of Test
+            <input type="date" id="od-test-date" onchange="autoFromDatesOD()"/>
+          </div>
+        </div>
+        <div class="auto-strip" id="od-auto-strip" style="display:none">
+          <div class="auto-item">
+            <span class="auto-lbl">AGE ON TEST DAY</span>
+            <span class="auto-val blue" id="od-auto-age">—</span>
+          </div>
+          <div class="auto-item">
+            <span class="auto-lbl">DOE'S CURRENT AGE</span>
+            <span class="auto-val" id="od-auto-current">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-label">One-Day Test Data</div>
+        <div class="field">Milk produced (lbs)<input type="number" id="od-milk" min="0" step="0.1" placeholder="e.g. 5.8"/></div>
+        <div class="field">Butterfat produced (lbs)<input type="number" id="od-bf" min="0" step="0.01" placeholder="e.g. 0.42"/></div>
+        <div class="field">Days in Milk (DIM)<input type="number" id="od-dim" min="0" step="1" placeholder="e.g. 95"/></div>
+        <div class="note">
+          ⓘ Miniature breeds need <strong>7+ points</strong> · Standard breeds need <strong>18+ points</strong><br>
+          Formula: milk lbs + DIM bonus (max <span id="od-max">1.44</span> pts) + (BF lbs ÷ 0.05)<br>
+          One-day tests earn <strong>ST *M only</strong> — not AR · No DCR required
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calculateOD()">CALCULATE ONE-DAY POINTS</button>
+    </div>
+
+    <!-- ══ RESULTS ══ -->
+    <div class="results-pane">
+      <div class="placeholder" id="placeholder">
+        <div class="placeholder-star">★</div>
+        <p>Enter your doe's production data and click Calculate.<br><br>
+        <span style="font-size:13px;color:var(--muted)">Tip: Enter a date of birth and freshening date to automatically calculate age at freshening and days in milk.</span></p>
+      </div>
+
+      <!-- 305-day result -->
+      <div class="result-card hidden" id="result-continuous">
+        <div class="verdict" id="verdict-banner">
+          <span class="verdict-star" id="verdict-icon">★</span>
+          <div>
+            <div class="verdict-title" id="verdict-title">—</div>
+            <div class="verdict-sub" id="verdict-sub">—</div>
+          </div>
+        </div>
+        <div class="buck-note hidden" id="buck-note"></div>
+
+        <!-- Doe info summary -->
+        <div class="auto-strip" id="result-doe-info" style="margin:14px 20px 0;display:none">
+          <div class="auto-item"><span class="auto-lbl">DATE OF BIRTH</span><span class="auto-val" id="res-dob-val">—</span></div>
+          <div class="auto-item"><span class="auto-lbl">FRESHENING DATE</span><span class="auto-val" id="res-fresh-val">—</span></div>
+          <div class="auto-item"><span class="auto-lbl">DAYS IN MILK</span><span class="auto-val teal" id="res-dim-val">—</span></div>
+          <div class="auto-item"><span class="auto-lbl">CURRENT AGE</span><span class="auto-val" id="res-curr-age">—</span></div>
+        </div>
+
+        <div class="breakdown" style="margin-top:14px">
+          <div class="sec-label">Component Breakdown</div>
+          <div class="comp-row" id="comp-milk"></div>
+          <div class="comp-row" id="comp-bf"></div>
+          <div class="comp-row" id="comp-protein"></div>
+        </div>
+
+        <div class="dcr-row">
+          <span class="dcr-label">DCR:</span>
+          <span id="dcr-result">—</span>
+        </div>
+
+        <div class="min-table">
+          <div class="min-table-head" id="min-table-head">2025 MINIMUMS</div>
+          <div class="min-table-row"><span>Milk</span><span id="min-milk">—</span></div>
+          <div class="min-table-row"><span>Butterfat</span><span id="min-bf">—</span></div>
+          <div class="min-table-row"><span>Protein</span><span id="min-protein">—</span></div>
+          <div class="min-table-row"><span>DCR</span><span id="min-dcr">—</span></div>
+        </div>
+
+      </div>
+
+      <!-- One-day result -->
+      <div class="result-card hidden" id="result-oneday">
+        <div class="verdict" id="od-verdict-banner">
+          <span class="verdict-star" id="od-verdict-icon">★</span>
+          <div>
+            <div class="verdict-title" id="od-verdict-title">—</div>
+            <div class="verdict-sub" id="od-verdict-sub">—</div>
+          </div>
+        </div>
+        <div class="buck-note warn hidden" id="od-buck-note">
+          <strong>Note:</strong> A one-day ST *M <em>does</em> pass to bucklings — provided the sire is a *B or +B.
+        </div>
+        <div class="auto-strip" id="od-result-info" style="margin:14px 20px 0;display:none">
+          <div class="auto-item"><span class="auto-lbl">AGE ON TEST DAY</span><span class="auto-val blue" id="od-res-age">—</span></div>
+          <div class="auto-item"><span class="auto-lbl">CURRENT AGE</span><span class="auto-val" id="od-res-curr">—</span></div>
+        </div>
+        <div class="breakdown" style="margin-top:14px">
+          <div class="sec-label">Point Breakdown</div>
+          <div class="pt-row"><div class="pt-head"><span class="pt-lbl">Milk Points</span><span class="pt-val" id="od-milk-pts">—</span></div><div class="pt-desc" id="od-milk-desc">—</div></div>
+          <div class="pt-row"><div class="pt-head"><span class="pt-lbl">DIM Bonus</span><span class="pt-val" id="od-dim-pts">—</span></div><div class="pt-desc" id="od-dim-desc">—</div></div>
+          <div class="pt-row"><div class="pt-head"><span class="pt-lbl">Butterfat Points</span><span class="pt-val" id="od-bf-pts">—</span></div><div class="pt-desc" id="od-bf-desc">—</div></div>
+          <div class="total-row">
+            <div class="total-head"><span class="total-lbl">TOTAL</span><span class="total-val" id="od-total">—</span></div>
+            <div class="bar-track"><div class="bar-fill" id="od-bar"></div></div>
+          </div>
+        </div>
+        <div class="about-box">
+          <div class="about-title">ABOUT ONE-DAY TESTS</div>
+          <div class="about-text">One-Day Milking Competitions are ADGA-sanctioned events (often held at shows). The doe is milked 3 times over 24 hours; milk is weighed and sampled by a DHI supervisor. Stars earned this way are <strong>ST *M</strong> — they pass to bucklings if the sire is *B or +B, but production values are not used in genetic evaluations and the doe cannot earn an AR designation from a one-day test alone. <em>Source: 2025 ADGA Guidebook, Article IX Section F.</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 20px 28px;">
+    <div class="info-box" style="margin:0;">
+      <button class="info-toggle" onclick="toggleInfo()">▼ UNDERSTANDING AR vs ST STARS & BUCK DESIGNATION RULES</button>
+      <div class="info-body" id="info-body">
+
+        <p style="font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:0.14em;color:var(--navy-lt);margin-bottom:8px">DOE MILK STARS — *M</p>
+        <p><strong>AR *M (Advanced Registry)</strong> — Earned on DHIR continuous test. A doe qualifies on milk, BF, or protein alone. The star only passes to bucklings if she earned milk volume AND butterfat or protein. Requires DCR ≥ 75 (OS-40) and an appropriate Verification Test.</p>
+        <p><strong>ST *M (Star Program)</strong> — Earned via one-day milking competition or OS-40 ST owner sampler. Not a lesser designation than AR. ST stars convey to bucklings with the right sire.</p>
+        <p><strong>How a doe earns her *M:</strong><br>
+        (1) By meeting minimum DHIR production requirements (Section E) including DCR ≥ 75, appropriate VT, and documentation of the qualifying completed lactation, OR<br>
+        (2) By earning 18+ points (standard) or 7+ points (miniature) at a recognized ADGA Milking Competition, OR<br>
+        (3) On the basis of an AGS Advanced Registry or Canadian R.O.P. certificate where production meets ADGA minimums in 305 days or less.</p>
+
+        <p style="font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:0.14em;color:var(--navy-lt);margin-bottom:8px;margin-top:16px">BUCK DESIGNATIONS — FROM 2025 ADGA GUIDEBOOK</p>
+
+        <p><strong>*B (Star Buck) — automatic, no fee</strong> — A buck earns his *B if EITHER of these is true:<br>
+        (1) His dam is an AR doe that qualified on both milk AND butterfat, or a ST doe, AND his sire is an AR Sire, a Star Buck, or a +B (ST).<br>
+        (2) His dam is an AR doe that qualified on both milk AND butterfat, or a ST doe, AND his sire's dam is an AR doe that qualified on both milk and butterfat, or a ST doe meeting those same requirements.</p>
+
+        <p><strong>+B (ST) — Star Sire, earned through progeny</strong> — A buck earns his +B (ST) designation if he has any ONE of the following:<br>
+        (1) Three *M daughters from three different dams — at least two of the dams must be registered or recorded with ADGA (per 2025 Guidebook p.95), OR<br>
+        (2) Two +B sons (ST), OR<br>
+        (3) One AR son and one +B son (ST), OR<br>
+        (4) One AR son and two AR and/or *M daughters, OR<br>
+        (5) One +B son (ST) and two AR and/or *M daughters.</p>
+
+        <p><strong>++B — Double Star Sire</strong> — Earned by qualifying a second time through any of the +B (ST) methods above using different progeny than what earned the first +B. Must be earned on the basis of both sons AND daughters.</p>
+
+        <p><strong>+B (AR) — Advanced Registry Sire</strong> — Earned if he has: (1) three AR daughters from three different dams (at least two ADGA registered/recorded), OR (2) two AR sons that are AR Sires.</p>
+
+        <p><strong>++B (AR) — Double Advanced Registry Sire</strong> — Must have BOTH: (1) three AR daughters from three different dams (at least two ADGA registered) AND (2) two AR sons that are AR Sires.</p>
+
+        <p style="color:var(--muted);font-size:12px;font-style:italic;margin-top:8px">Source: 2025 ADGA Guidebook, Article IX Section G, pages 91–94 · For reference only · Always verify with ADGA</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    All thresholds from the 2025 ADGA Guidebook (Article IX, Section E) · For reference only · Always verify with ADGA for official determinations<br>
+    <span style="color:#444">© Rustic Back Acres · Brighton, TN · All rights reserved · rusticbackacres.com</span>
+  </footer>
+</div>
+
+<script>
+// ─── 2025 ADGA Guidebook — Exact values pages 87-89 ──────────────────────────
+const STD={0:{milk:1500,bf:52.50,protein:45.00},25:{milk:1506,bf:52.71,protein:45.18},26:{milk:1512,bf:52.92,protein:45.36},27:{milk:1518,bf:53.13,protein:45.54},28:{milk:1524,bf:53.34,protein:45.72},29:{milk:1530,bf:53.55,protein:45.90},30:{milk:1536,bf:53.76,protein:46.08},31:{milk:1542,bf:53.97,protein:46.26},32:{milk:1548,bf:54.18,protein:46.44},33:{milk:1554,bf:54.39,protein:46.62},34:{milk:1560,bf:54.60,protein:46.80},35:{milk:1566,bf:54.81,protein:46.98},36:{milk:1572,bf:55.02,protein:47.16},37:{milk:1578,bf:55.23,protein:47.34},38:{milk:1584,bf:55.44,protein:47.52},39:{milk:1590,bf:55.65,protein:47.70},40:{milk:1596,bf:55.86,protein:47.88},41:{milk:1602,bf:56.07,protein:48.06},42:{milk:1608,bf:56.28,protein:48.24},43:{milk:1614,bf:56.49,protein:48.42},44:{milk:1620,bf:56.70,protein:48.60},45:{milk:1626,bf:56.91,protein:48.78},46:{milk:1632,bf:57.12,protein:48.96},47:{milk:1638,bf:57.33,protein:49.14},48:{milk:1644,bf:57.54,protein:49.32},49:{milk:1650,bf:57.75,protein:49.50},50:{milk:1656,bf:57.96,protein:49.68},51:{milk:1662,bf:58.17,protein:49.86},52:{milk:1668,bf:58.38,protein:50.04},53:{milk:1674,bf:58.59,protein:50.22},54:{milk:1680,bf:58.80,protein:50.40},55:{milk:1686,bf:59.01,protein:50.58},56:{milk:1692,bf:59.22,protein:50.76},57:{milk:1698,bf:59.43,protein:50.94},58:{milk:1704,bf:59.64,protein:51.12},59:{milk:1710,bf:59.85,protein:51.30},60:{milk:1716,bf:60.06,protein:51.48}};
+const MINI={0:{milk:600,bf:31.00,protein:18.00},25:{milk:603,bf:31.09,protein:18.08},26:{milk:605,bf:31.18,protein:18.15},27:{milk:608,bf:31.26,protein:18.23},28:{milk:610,bf:31.35,protein:18.30},29:{milk:613,bf:31.44,protein:18.38},30:{milk:615,bf:31.53,protein:18.45},31:{milk:618,bf:31.61,protein:18.53},32:{milk:620,bf:31.70,protein:18.60},33:{milk:623,bf:31.79,protein:18.68},34:{milk:625,bf:31.88,protein:18.75},35:{milk:628,bf:31.96,protein:18.83},36:{milk:630,bf:32.05,protein:18.90},37:{milk:633,bf:32.14,protein:18.98},38:{milk:635,bf:32.23,protein:19.05},39:{milk:638,bf:32.31,protein:19.13},40:{milk:640,bf:32.40,protein:19.20},41:{milk:643,bf:32.49,protein:19.28},42:{milk:645,bf:32.58,protein:19.35},43:{milk:648,bf:32.66,protein:19.43},44:{milk:650,bf:32.75,protein:19.50},45:{milk:653,bf:32.84,protein:19.58},46:{milk:655,bf:32.93,protein:19.65},47:{milk:658,bf:33.01,protein:19.73},48:{milk:660,bf:33.10,protein:19.80},49:{milk:663,bf:33.19,protein:19.88},50:{milk:665,bf:33.28,protein:19.95},51:{milk:668,bf:33.36,protein:20.03},52:{milk:670,bf:33.45,protein:20.10},53:{milk:673,bf:33.54,protein:20.18},54:{milk:675,bf:33.63,protein:20.25},55:{milk:678,bf:33.71,protein:20.33},56:{milk:680,bf:33.80,protein:20.40},57:{milk:683,bf:33.89,protein:20.48},58:{milk:685,bf:33.98,protein:20.55},59:{milk:688,bf:34.06,protein:20.63},60:{milk:690,bf:34.15,protein:20.70}};
+
+let isMini=true, isMiniOD=true;
+
+function getThresh(totalMonths,mini){
+  const t=mini?MINI:STD;
+  if(totalMonths<=24) return{...t[0],label:'2-00 or younger (incl. yearlings)'};
+  const key=Math.min(totalMonths,60);
+  const y=Math.floor(totalMonths/12),m=totalMonths%12;
+  const lbl=totalMonths>=60?'5-00 or older':`${y}-${String(m).padStart(2,'0')}`;
+  return{...(t[key]||t[60]),label:lbl};
+}
+
+// ─── Date helpers ─────────────────────────────────────────────────────────────
+function parseDate(id){const v=document.getElementById(id).value;return v?new Date(v+'T00:00:00'):null;}
+
+function ageStr(months){
+  if(months<0) return 'N/A';
+  const y=Math.floor(months/12),m=months%12;
+  return y>0?(m>0?`${y} yr ${m} mo`:`${y} yr`):`${m} mo`;
+}
+
+function monthsBetween(d1,d2){
+  let months=(d2.getFullYear()-d1.getFullYear())*12+(d2.getMonth()-d1.getMonth());
+  if(d2.getDate()<d1.getDate()) months--;
+  return Math.max(0,months);
+}
+
+function daysBetween(d1,d2){
+  return Math.round((d2-d1)/86400000);
+}
+
+function fmtDate(d){
+  if(!d) return '—';
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+
+// ─── Auto-fill from dates ─────────────────────────────────────────────────────
+function autoFromDates(){
+  const dob=parseDate('dob');
+  const fresh=parseDate('fresh-date');
+  const end=parseDate('test-end')||new Date();
+  const strip=document.getElementById('auto-strip');
+
+  if(!dob && !fresh){strip.style.display='none';return;}
+  strip.style.display='flex';
+
+  // Age at freshening
+  if(dob && fresh){
+    const ageAtFresh=monthsBetween(dob,fresh);
+    document.getElementById('auto-age').textContent=ageStr(ageAtFresh)+` (${Math.floor(ageAtFresh/12)}-${String(ageAtFresh%12).padStart(2,'0')})`;
+    // Auto-set the age dropdowns
+    const y=Math.min(10,Math.floor(ageAtFresh/12));
+    const m=ageAtFresh%12;
+    document.getElementById('age-years').value=y;
+    document.getElementById('age-months').value=m;
+  } else {
+    document.getElementById('auto-age').textContent='—';
+  }
+
+  // Days in milk
+  if(fresh){
+    const dim=daysBetween(fresh,end);
+    document.getElementById('auto-dim').textContent=dim>0?dim+' days':'—';
+  } else {
+    document.getElementById('auto-dim').textContent='—';
+  }
+
+  // Current age
+  if(dob){
+    const currAge=monthsBetween(dob,new Date());
+    document.getElementById('auto-current-age').textContent=ageStr(currAge);
+  } else {
+    document.getElementById('auto-current-age').textContent='—';
+  }
+}
+
+function autoFromDatesOD(){
+  const dob=parseDate('od-dob');
+  const testDate=parseDate('od-test-date')||new Date();
+  const strip=document.getElementById('od-auto-strip');
+  if(!dob){strip.style.display='none';return;}
+  strip.style.display='flex';
+  const ageOnTest=monthsBetween(dob,testDate);
+  document.getElementById('od-auto-age').textContent=ageStr(ageOnTest);
+  const currAge=monthsBetween(dob,new Date());
+  document.getElementById('od-auto-current').textContent=ageStr(currAge);
+}
+
+// ─── Tab / breed ──────────────────────────────────────────────────────────────
+// DCR rules per test type (from 2025 ADGA Guidebook p.83-84):
+// AR_DHIR20: no minimum DCR for star; DCR 93+ for Top Ten only
+// AR_ITP:    no minimum DCR for star; DCR 93+ for Top Ten only
+// AR_OS40:   DCR 75+ required + min 8 tests + 240 DIM for AR
+// ST_OS40:   DCR 75+ required for ST Volume recognition
+// ST_PROG:   no DCR — based on qualifying progeny
+const TEST_DCR = {
+  AR_DHIR20: { required: false, min: null, topTen: 93,   extraReqs: null,
+    note: 'No minimum DCR required for the star · DCR 93+ required for Top Ten only · No minimum DIM or test count required beyond a completed lactation' },
+  AR_ITP:    { required: false, min: null, topTen: 93,   extraReqs: null,
+    note: 'No minimum DCR required for the star · DCR 93+ required for Top Ten only · No minimum DIM or test count required beyond a completed lactation' },
+  AR_OS40:   { required: true,  min: 75,  topTen: null,  extraReqs: '⚠ AR OS-40 additional requirements: minimum 8 test days AND minimum 240 days in milk. These are required in addition to DCR ≥ 75 for AR recognition.',
+    note: 'DCR 75+ required for AR recognition · See additional requirements below' },
+  ST_OS40:   { required: true,  min: 75,  topTen: null,  extraReqs: null,
+    note: 'DCR 75+ required for ST Volume recognition · No minimum DIM or test count required beyond a completed lactation with sufficient DCR' },
+  ST_PROG:   { required: false, min: null, topTen: null, extraReqs: null,
+    note: 'No DCR required — star is based on qualifying progeny, not a test record' },
+};
+
+function onTestTypeChange(){
+  const testType=document.getElementById('test-type').value;
+  const rules=TEST_DCR[testType];
+  const dcrField=document.getElementById('dcr-field');
+  const dcrNaNote=document.getElementById('dcr-na-note');
+  const dcrNote=document.getElementById('dcr-note');
+  const extraNote=document.getElementById('extra-reqs-note');
+
+  // Show/hide DCR field
+  const hideDcr = testType==='ST_PROG';
+  dcrField.classList.toggle('hidden', hideDcr);
+  dcrNaNote.classList.toggle('hidden', testType!=='ST_PROG');
+
+  // Update note text
+  if(dcrNote) dcrNote.textContent=rules.note;
+
+  // Show/hide extra requirements (AR OS-40 only)
+  if(rules.extraReqs){
+    extraNote.classList.remove('hidden');
+    extraNote.textContent=rules.extraReqs;
+  } else {
+    extraNote.classList.add('hidden');
+    extraNote.textContent='';
+  }
+}
+
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('card-continuous').classList.toggle('hidden',tab!=='continuous');
+  document.getElementById('card-oneday').classList.toggle('hidden',tab!=='oneday');
+  document.getElementById('placeholder').classList.remove('hidden');
+  document.getElementById('result-continuous').classList.add('hidden');
+  document.getElementById('result-oneday').classList.add('hidden');
+}
+function setBreed(mini){isMini=mini;document.getElementById('btn-mini').classList.toggle('active',mini);document.getElementById('btn-std').classList.toggle('active',!mini);}
+function setBreedOD(mini){isMiniOD=mini;document.getElementById('btn-mini-od').classList.toggle('active',mini);document.getElementById('btn-std-od').classList.toggle('active',!mini);document.getElementById('od-max').textContent=mini?'1.44':'3.6';}
+function toggleInfo(){const b=document.getElementById('info-body');const btn=document.querySelector('.info-toggle');const open=b.classList.toggle('open');btn.textContent=(open?'▲':'▼')+' UNDERSTANDING AR vs ST STARS & BUCK DESIGNATION RULES';}
+
+// ─── Build component bar ──────────────────────────────────────────────────────
+function buildComp(id,label,val,min,pass){
+  const isInt=label==='Milk';
+  const diff=min-val;
+  const p=Math.min(100,Math.round((val/min)*100));
+  document.getElementById(id).innerHTML=`
+    <div class="comp-head">
+      <span class="${pass?'icon-pass':'icon-fail'}">${pass?'✓':'✗'}</span>
+      <span class="comp-name">${label}</span>
+      <span class="comp-min">min: ${min}</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill ${pass?'pass':'fail'}" style="width:${p}%"></div></div>
+    <div class="comp-num">
+      <span class="${pass?'val-pass':'val-fail'}">${isInt?val.toFixed(0):val.toFixed(2)}</span>
+      <span class="val-unit"> / ${min} lbs</span>
+      ${!pass&&diff>0?`<span class="val-short">needs ${isInt?diff.toFixed(0):diff.toFixed(2)} more</span>`:''}
+    </div>`;
+}
+
+// ─── 305-Day calculate ────────────────────────────────────────────────────────
+function calculate(){
+  const years=parseInt(document.getElementById('age-years').value)||0;
+  const months=parseInt(document.getElementById('age-months').value)||0;
+  const milk=parseFloat(document.getElementById('milk').value);
+  const bf=parseFloat(document.getElementById('bf').value);
+  const protein=parseFloat(document.getElementById('protein').value);
+  const dcrRaw=document.getElementById('dcr').value;
+  const testType=document.getElementById('test-type').value;
+  if(isNaN(milk)||isNaN(bf)||isNaN(protein)){alert('Please enter Milk, Butterfat, and Protein values.');return;}
+
+  const total=years*12+months;
+  const thresh=getThresh(total,isMini);
+  const milkPass=milk>=thresh.milk,bfPass=bf>=thresh.bf,proPass=protein>=thresh.protein;
+  const anyPass=milkPass||bfPass||proPass;
+  const buckDam=milkPass&&(bfPass||proPass);
+  const isAR=testType.startsWith('AR');
+  const rules=TEST_DCR[testType];
+  const dcrRequired=rules.required;
+  const dcrNum=dcrRaw!==''?parseFloat(dcrRaw):null;
+  const dcrOk = testType==='ST_PROG'
+    ? true
+    : dcrRequired
+      ? (dcrNum!==null && dcrNum>=rules.min)
+      : true;
+
+  const passingComponents = [];
+  if(milkPass) passingComponents.push('Milk');
+  if(bfPass) passingComponents.push('Butterfat');
+  if(proPass) passingComponents.push('Protein');
+
+  const earns=anyPass&&dcrOk;
+
+  document.getElementById('placeholder').classList.add('hidden');
+  document.getElementById('result-continuous').classList.remove('hidden');
+  document.getElementById('result-oneday').classList.add('hidden');
+
+  const banner=document.getElementById('verdict-banner');
+  banner.className='verdict '+(earns?'pass':'fail');
+  document.getElementById('verdict-icon').textContent=earns?'★':'✗';
+
+  // Show exactly which components qualified
+  let verdictTitle, verdictSub;
+  if(earns){
+    const qualType = isAR ? 'AR *M' : 'ST *M';
+    verdictTitle = `Qualifies — ${qualType}`;
+    verdictSub = `${thresh.label} · Qualified on: ${passingComponents.join(', ')}`;
+  } else {
+    verdictTitle = 'Does Not Yet Qualify';
+    verdictSub = thresh.label;
+  }
+  document.getElementById('verdict-title').textContent=verdictTitle;
+  document.getElementById('verdict-sub').textContent=verdictSub;
+
+  const buckEl=document.getElementById('buck-note');
+  if(earns){
+    buckEl.classList.remove('hidden');
+    if(buckDam){
+      buckEl.className='buck-note good';
+      buckEl.innerHTML='<strong>★ Dam qualifies to produce *B bucklings</strong> — earned milk + (BF or protein). The sire must ALSO be a *B or +B for the buckling to receive his *B.';
+    } else if(!milkPass){
+      buckEl.className='buck-note warn';
+      buckEl.innerHTML='<strong>⚠ Star earned on BF/Protein only — does NOT pass to bucklings.</strong> Milk volume minimum was not met. Buck-passing requires the dam to earn milk volume AND (BF or protein). This doe has her *M but her bucklings cannot earn *B from her star.';
+    } else {
+      buckEl.className='buck-note warn';
+      buckEl.innerHTML='<strong>⚠ Dam\'s star does NOT pass to bucklings</strong> — requires milk + (BF or protein) both met. Sire must also be *B or +B.';
+    }
+  } else {buckEl.classList.add('hidden');}
+
+  // Doe info summary
+  const dob=parseDate('dob'),fresh=parseDate('fresh-date'),end=parseDate('test-end')||new Date();
+  const infoEl=document.getElementById('result-doe-info');
+  if(dob||fresh){
+    infoEl.style.display='flex';
+    document.getElementById('res-dob-val').textContent=fmtDate(dob);
+    document.getElementById('res-fresh-val').textContent=fmtDate(fresh);
+    document.getElementById('res-dim-val').textContent=fresh?daysBetween(fresh,end)+' days':'—';
+    document.getElementById('res-curr-age').textContent=dob?ageStr(monthsBetween(dob,new Date())):'—';
+  } else {infoEl.style.display='none';}
+
+  buildComp('comp-milk','Milk',milk,thresh.milk,milkPass);
+  buildComp('comp-bf','Butterfat',bf,thresh.bf,bfPass);
+  buildComp('comp-protein','Protein',protein,thresh.protein,proPass);
+
+  const dcrEl=document.getElementById('dcr-result');
+  if(testType==='ST_PROG'){
+    dcrEl.innerHTML='<span style="color:var(--muted);font-style:italic">Not applicable — progeny-based star</span>';
+  } else if(!rules.required){
+    // DHIR20 / ITP — no minimum for star, only Top Ten
+    if(dcrRaw===''){
+      dcrEl.innerHTML='<span style="color:var(--muted);font-style:italic">Not required for star · Enter for Top Ten check</span>';
+    } else {
+      const top10=rules.topTen&&dcrNum>=rules.topTen?' <span style="color:var(--amber)">· ✓ Top Ten eligible</span>':rules.topTen?` <span style="color:var(--muted)">· Top Ten needs ${rules.topTen}+</span>`:'';
+      dcrEl.innerHTML=`<span style="color:var(--off);font-weight:700">${dcrNum} — no minimum required for star${top10}</span>`;
+    }
+  } else {
+    // AR_OS40 / ST_OS40 — DCR 75 required
+    if(dcrRaw===''){
+      dcrEl.innerHTML='<span style="color:var(--muted);font-style:italic">Not entered — minimum 75 required</span>';
+    } else {
+      dcrEl.innerHTML=`<span style="color:${dcrOk?'var(--green-lt)':'var(--red)'};font-weight:700">${dcrNum} — ${dcrOk?'✓ meets minimum (75)':'✗ below minimum of 75'}</span>`;
+    }
+  }
+
+  // DCR row in minimums table
+  const dcrMinEl=document.getElementById('min-dcr');
+  if(testType==='ST_PROG') dcrMinEl.textContent='Not applicable';
+  else if(!rules.required) dcrMinEl.textContent='None for star · 93+ for Top Ten';
+  else dcrMinEl.textContent='≥ 75 required';
+  document.getElementById('min-table-head').textContent=`2025 MINIMUMS — ${thresh.label.toUpperCase()} · ${isMini?'MINIATURE':'STANDARD'}`;
+  document.getElementById('min-milk').textContent=thresh.milk+' lbs';
+  document.getElementById('min-bf').textContent=thresh.bf+' lbs';
+  document.getElementById('min-protein').textContent=thresh.protein+' lbs';
+}
+
+// ─── One-day calculate ────────────────────────────────────────────────────────
+function calculateOD(){
+  const milkLbs=parseFloat(document.getElementById('od-milk').value);
+  const bfLbs=parseFloat(document.getElementById('od-bf').value);
+  const dim=parseFloat(document.getElementById('od-dim').value);
+  if(isNaN(milkLbs)||isNaN(bfLbs)||isNaN(dim)){alert('Please enter Milk, Butterfat, and Days in Milk.');return;}
+  const dimMax=isMiniOD?1.44:3.6,dimStep=isMiniOD?0.04:0.1;
+  const dimPts=Math.min(Math.floor(dim/10)*dimStep,dimMax);
+  const milkPts=milkLbs,bfPts=bfLbs/0.05;
+  const total=milkPts+dimPts+bfPts;
+  const needed=isMiniOD?7:18;
+  const pass=total>=needed;
+
+  document.getElementById('placeholder').classList.add('hidden');
+  document.getElementById('result-continuous').classList.add('hidden');
+  document.getElementById('result-oneday').classList.remove('hidden');
+
+  const banner=document.getElementById('od-verdict-banner');
+  banner.className='verdict '+(pass?'pass':'fail');
+  document.getElementById('od-verdict-icon').textContent=pass?'★':'✗';
+  document.getElementById('od-verdict-title').textContent=pass?'Earns ST *M':'Does Not Earn Star';
+  document.getElementById('od-verdict-sub').textContent=`${total.toFixed(2)} pts ${pass?`✓ (needed ${needed})`:`✗ — needs ${(needed-total).toFixed(2)} more`}`;
+  document.getElementById('od-buck-note').classList.toggle('hidden',!pass);
+
+  // Doe age info
+  const dob=parseDate('od-dob'),testDate=parseDate('od-test-date')||new Date();
+  const odInfo=document.getElementById('od-result-info');
+  if(dob){
+    odInfo.style.display='flex';
+    document.getElementById('od-res-age').textContent=ageStr(monthsBetween(dob,testDate));
+    document.getElementById('od-res-curr').textContent=ageStr(monthsBetween(dob,new Date()));
+  } else {odInfo.style.display='none';}
+
+  document.getElementById('od-milk-pts').textContent=milkPts.toFixed(2)+' pts';
+  document.getElementById('od-milk-desc').textContent=`${milkLbs.toFixed(1)} lbs milk = ${milkPts.toFixed(2)} pts`;
+  document.getElementById('od-dim-pts').textContent=dimPts.toFixed(2)+' pts';
+  document.getElementById('od-dim-desc').textContent=`${dim} days in milk → ${dimPts.toFixed(2)} pts (max ${dimMax})`;
+  document.getElementById('od-bf-pts').textContent=bfPts.toFixed(2)+' pts';
+  document.getElementById('od-bf-desc').textContent=`${bfLbs.toFixed(2)} lbs BF ÷ 0.05 = ${bfPts.toFixed(2)} pts`;
+
+  const totalEl=document.getElementById('od-total');
+  totalEl.className='total-val '+(pass?'pass':'fail');
+  totalEl.textContent=`${total.toFixed(2)} / ${needed} needed`;
+  const barEl=document.getElementById('od-bar');
+  barEl.className='bar-fill '+(pass?'pass':'fail');
+  barEl.style.width=Math.min(100,(total/needed)*100).toFixed(1)+'%';
+}
+</script>
+</body>
+</html>

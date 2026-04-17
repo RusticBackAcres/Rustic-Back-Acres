@@ -1,0 +1,232 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "does"
+    label: "Our Does"
+    folder: "_data/does"
+    create: true
+    slug: "{{fields.call_name | slugify}}"
+    fields:
+      - {label: "Call Name", name: "call_name", widget: "string"}
+      - {label: "Registered Name", name: "reg_name", widget: "string", required: false}
+      - {label: "AGS Number", name: "ags_num", widget: "string", required: false}
+      - {label: "Date of Birth", name: "dob", widget: "string", required: false}
+      - {label: "Color", name: "color", widget: "string", required: false}
+      - {label: "Sire (full registered name)", name: "sire", widget: "string", required: false}
+      - {label: "Dam (full registered name)", name: "dam", widget: "string", required: false}
+      - {label: "Paternal Grandsire", name: "pat_grandsire", widget: "string", required: false}
+      - {label: "Paternal Granddam", name: "pat_granddam", widget: "string", required: false}
+      - {label: "Maternal Grandsire", name: "mat_grandsire", widget: "string", required: false}
+      - {label: "Maternal Granddam", name: "mat_granddam", widget: "string", required: false}
+      - {label: "LA Score", name: "la_score", widget: "string", required: false, default: "N/A"}
+      - {label: "Titles (SG, 2*M, *M, etc)", name: "titles", widget: "string", required: false}
+      - {label: "DHIR Enrolled", name: "dhir", widget: "boolean", default: false}
+      - {label: "DNA on File", name: "dna", widget: "boolean", default: true}
+      - {label: "Show Records", name: "show_records", widget: "list", required: false,
+         fields:
+           - {label: "Show Name", name: "show_name", widget: "string"}
+           - {label: "Date", name: "date", widget: "string"}
+           - {label: "Placement / Win", name: "placement", widget: "string"}
+           - {label: "Judge", name: "judge", widget: "string", required: false}}
+      - {label: "Photo 1", name: "photo1", widget: "image", required: false}
+      - {label: "Photo 1 Caption", name: "photo1_caption", widget: "string", required: false, default: ""}
+      - {label: "Photo 2", name: "photo2", widget: "image", required: false}
+      - {label: "Photo 2 Caption", name: "photo2_caption", widget: "string", required: false, default: ""}
+      - {label: "Photo 3", name: "photo3", widget: "image", required: false}
+      - {label: "Photo 3 Caption", name: "photo3_caption", widget: "string", required: false, default: ""}
+      - {label: "Photo 4", name: "photo4", widget: "image", required: false}
+      - {label: "Photo 4 Caption", name: "photo4_caption", widget: "string", required: false, default: ""}
+      - {label: "Photo 5", name: "photo5", widget: "image", required: false}
+      - {label: "Photo 5 Caption", name: "photo5_caption", widget: "string", required: false, default: ""}
+      - {label: "Notes", name: "notes", widget: "text", required: false}
+      - {label: "Sort Order (1=oldest, 99=bottom)", name: "sort_order", widget: "number", default: 99}
+
+  - name: "bucks"
+    label: "Our Bucks"
+    folder: "_data/bucks"
+    create: true
+    slug: "{{fields.call_name | slugify}}"
+    fields:
+      - {label: "Call Name", name: "call_name", widget: "string"}
+      - {label: "Registered Name", name: "reg_name", widget: "string", required: false}
+      - {label: "AGS Number", name: "ags_num", widget: "string", required: false}
+      - {label: "Date of Birth", name: "dob", widget: "string", required: false}
+      - {label: "Color", name: "color", widget: "string", required: false}
+      - {label: "Sire (full registered name)", name: "sire", widget: "string", required: false}
+      - {label: "Dam (full registered name)", name: "dam", widget: "string", required: false}
+      - {label: "Paternal Grandsire", name: "pat_grandsire", widget: "string", required: false}
+      - {label: "Paternal Granddam", name: "pat_granddam", widget: "string", required: false}
+      - {label: "Maternal Grandsire", name: "mat_grandsire", widget: "string", required: false}
+      - {label: "Maternal Granddam", name: "mat_granddam", widget: "string", required: false}
+      - {label: "LA Score", name: "la_score", widget: "string", required: false, default: "N/A"}
+      - {label: "Titles (*B, +*B, GCH, GEE, etc)", name: "titles", widget: "string", required: false}
+      - {label: "Semen Available", name: "semen", widget: "boolean", default: false}
+      - {label: "DNA on File", name: "dna", widget: "boolean", default: true}
+      - {label: "Show Records", name: "show_records", widget: "list", required: false,
+         fields:
+           - {label: "Show Name", name: "show_name", widget: "string"}
+           - {label: "Date", name: "date", widget: "string"}
+           - {label: "Placement / Win", name: "placement", widget: "string"}
+           - {label: "Judge", name: "judge", widget: "string", required: false}}
+      - {label: "Photo 1", name: "photo1", widget: "image", required: false}
+      - {label: "Photo 1 Caption", name: "photo1_caption", widget: "string", required: false, default: ""}
+      - {label: "Photo 2", name: "photo2", widget: "image", required: false}
+      - {label: "Photo 2 Caption", name: "photo2_caption", widget: "string", required: false, default: ""}
+      - {label: "Photo 3", name: "photo3", widget: "image", required: false}
+      - {label: "Photo 3 Caption", name: "photo3_caption", widget: "string", required: false, default: ""}
+      - {label: "Photo 4", name: "photo4", widget: "image", required: false}
+      - {label: "Photo 4 Caption", name: "photo4_caption", widget: "string", required: false, default: ""}
+      - {label: "Notes", name: "notes", widget: "text", required: false}
+      - {label: "Sort Order (1=oldest, 99=bottom)", name: "sort_order", widget: "number", default: 99}
+
+  - name: "available"
+    label: "Available Animals"
+    folder: "_data/available"
+    create: true
+    slug: "{{fields.name | slugify}}"
+    fields:
+      - {label: "Animal Name", name: "name", widget: "string"}
+      - {label: "Registered Name", name: "reg_name", widget: "string", required: false}
+      - {label: "Sex", name: "sex", widget: "select", options: ["Doeling","Buckling","Doe","Buck","Wether"]}
+      - {label: "Date of Birth", name: "dob", widget: "string", required: false}
+      - {label: "Color", name: "color", widget: "string", required: false}
+      - {label: "Sire", name: "sire", widget: "string", required: false}
+      - {label: "Dam", name: "dam", widget: "string", required: false}
+      - {label: "Price", name: "price", widget: "string", required: false}
+      - {label: "Status", name: "status", widget: "select", options: ["Available","Pending","Sold"], default: "Available"}
+      - {label: "Photo 1", name: "photo1", widget: "image", required: false}
+      - {label: "Photo 1 Caption", name: "photo1_caption", widget: "string", required: false}
+      - {label: "Photo 2", name: "photo2", widget: "image", required: false}
+      - {label: "Photo 2 Caption", name: "photo2_caption", widget: "string", required: false}
+      - {label: "Photo 3", name: "photo3", widget: "image", required: false}
+      - {label: "Notes", name: "notes", widget: "text", required: false}
+
+  - name: "kidding"
+    label: "Kidding Schedule"
+    folder: "_data/kidding"
+    create: true
+    slug: "{{fields.doe | slugify}}"
+    fields:
+      - {label: "Doe Name", name: "doe", widget: "string"}
+      - {label: "Sire", name: "sire", widget: "string", required: false}
+      - {label: "Breed Date", name: "breed_date", widget: "string", required: false}
+      - {label: "Due Date", name: "due_date", widget: "string", required: false}
+      - {label: "Status", name: "status", widget: "select", options: ["Planned","Bred","Due Soon","Kidded","Open"]}
+      - {label: "Kids", name: "kids", widget: "string", required: false}
+      - {label: "Notes", name: "notes", widget: "string", required: false}
+      - {label: "Season", name: "season", widget: "string", default: "2026"}
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "About Page"
+        name: "about"
+        file: "_data/about.json"
+        fields:
+          - {label: "About Paragraph 1", name: "para1", widget: "text"}
+          - {label: "About Paragraph 2", name: "para2", widget: "text"}
+          - {label: "About Paragraph 3", name: "para3", widget: "text"}
+          - {label: "About Paragraph 4", name: "para4", widget: "text"}
+          - {label: "Farm Photo 1", name: "farm_photo1", widget: "image", required: false}
+          - {label: "Farm Photo 2", name: "farm_photo2", widget: "image", required: false}
+          - {label: "Farm Photo 3", name: "farm_photo3", widget: "image", required: false}
+          - {label: "Farm Photo 4", name: "farm_photo4", widget: "image", required: false}
+          - {label: "Farm Photo 5", name: "farm_photo5", widget: "image", required: false}
+          - {label: "Farm Photo 6", name: "farm_photo6", widget: "image", required: false}
+      - label: "Social Links"
+        name: "social"
+        file: "_data/social.json"
+        fields:
+          - {label: "Instagram URL", name: "instagram", widget: "string", required: false}
+          - {label: "TikTok URL", name: "tiktok", widget: "string", required: false}
+          - {label: "Facebook URL", name: "facebook", widget: "string", required: false}
+
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "Homepage"
+        name: "homepage"
+        file: "_data/homepage.json"
+        fields:
+          - {label: "Hero Eyebrow Text", name: "hero_eyebrow", widget: "string", default: "ADGA Registered · Brighton, Tennessee"}
+          - {label: "Hero Title Line 1", name: "hero_title", widget: "string", default: "RUSTIC BACK ACRES"}
+          - {label: "Hero Subtitle", name: "hero_subtitle", widget: "string", default: "Nigerian Dwarf Goats"}
+          - {label: "Hero Description", name: "hero_desc", widget: "text", default: "Performance-bred Nigerian Dwarf goats in Brighton, Tennessee."}
+          - {label: "Hero Button 1 Text", name: "hero_btn1_text", widget: "string", default: "Meet Our Does"}
+          - {label: "Hero Button 2 Text", name: "hero_btn2_text", widget: "string", default: "View Available"}
+          - {label: "Intro Heading", name: "intro_heading", widget: "string", default: "Our Story"}
+          - {label: "Intro Paragraph 1", name: "intro_para1", widget: "text"}
+          - {label: "Intro Paragraph 2", name: "intro_para2", widget: "text"}
+          - {label: "Hero Background Image", name: "hero_bg", widget: "image", required: false}
+
+      - label: "About Page"
+        name: "about"
+        file: "_data/about.json"
+        fields:
+          - {label: "About Paragraph 1", name: "para1", widget: "text"}
+          - {label: "About Paragraph 2", name: "para2", widget: "text"}
+          - {label: "About Paragraph 3", name: "para3", widget: "text"}
+          - {label: "About Paragraph 4", name: "para4", widget: "text"}
+          - {label: "Farm Photo 1", name: "farm_photo1", widget: "image", required: false}
+          - {label: "Farm Photo 2", name: "farm_photo2", widget: "image", required: false}
+          - {label: "Farm Photo 3", name: "farm_photo3", widget: "image", required: false}
+          - {label: "Farm Photo 4", name: "farm_photo4", widget: "image", required: false}
+          - {label: "Farm Photo 5", name: "farm_photo5", widget: "image", required: false}
+          - {label: "Farm Photo 6", name: "farm_photo6", widget: "image", required: false}
+
+      - label: "Sales Policy"
+        name: "sales_policy"
+        file: "_data/sales-policy.json"
+        fields:
+          - {label: "General Policies", name: "general", widget: "list", field: {label: "Policy Item", name: "item", widget: "text"}}
+          - {label: "Deposit & Payment Policies", name: "deposits", widget: "list", field: {label: "Policy Item", name: "item", widget: "text"}}
+          - {label: "Shipping & Transport Policies", name: "shipping", widget: "list", field: {label: "Policy Item", name: "item", widget: "text"}}
+          - {label: "Goat Policies", name: "goats", widget: "list", field: {label: "Policy Item", name: "item", widget: "text"}}
+          - {label: "Goat Disclaimer (not guaranteed)", name: "goat_disclaimer", widget: "text"}
+
+      - label: "Contact Page"
+        name: "contact"
+        file: "_data/contact.json"
+        fields:
+          - {label: "Location", name: "location", widget: "string", default: "Brighton, Tennessee"}
+          - {label: "Email Address", name: "email", widget: "string"}
+          - {label: "Visit Policy", name: "visits", widget: "string", default: "By appointment only — no walk-ins please"}
+          - {label: "Response Time", name: "response", widget: "string", default: "Typically within 1–2 business days"}
+          - {label: "Inquiry Note", name: "inquiry_note", widget: "text"}
+
+      - label: "Footer & Social"
+        name: "footer"
+        file: "_data/footer.json"
+        fields:
+          - {label: "Farm Tagline", name: "tagline", widget: "string"}
+          - {label: "Instagram URL", name: "instagram", widget: "string", required: false}
+          - {label: "TikTok URL", name: "tiktok", widget: "string", required: false}
+          - {label: "Facebook URL", name: "facebook", widget: "string", required: false}
+          - {label: "Copyright Text", name: "copyright", widget: "string", default: "© 2026 Rustic Back Acres · Brighton, Tennessee"}
+
+  - name: "bucks_on_ice"
+    label: "Bucks on Ice"
+    folder: "_data/bucks-on-ice"
+    create: true
+    slug: "{{fields.call_name | slugify}}"
+    fields:
+      - {label: "Call Name", name: "call_name", widget: "string"}
+      - {label: "Registered Name", name: "reg_name", widget: "string", required: false}
+      - {label: "Date of Birth", name: "dob", widget: "string", required: false}
+      - {label: "Color", name: "color", widget: "string", required: false}
+      - {label: "Sire", name: "sire", widget: "string", required: false}
+      - {label: "Dam", name: "dam", widget: "string", required: false}
+      - {label: "Titles", name: "titles", widget: "string", required: false}
+      - {label: "Collections", name: "collections", widget: "list", required: false,
+         fields:
+           - {label: "Collection Label", name: "label", widget: "string"}
+           - {label: "Details", name: "details", widget: "string"}}
+      - {label: "Straws Available", name: "straws", widget: "string", required: false}
+      - {label: "Photo 1", name: "photo1", widget: "image", required: false}
+      - {label: "Photo 2", name: "photo2", widget: "image", required: false}
+      - {label: "Sort Order", name: "sort_order", widget: "number", default: 99}

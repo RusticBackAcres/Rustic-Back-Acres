@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Available Animals — Rustic Back Acres</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="images/logo.png" alt="Rustic Back Acres Logo" class="nav-logo-img" />
+      <div class="nav-logo-text">
+        <span class="farm-name">Rustic Back Acres</span>
+        <span class="farm-loc">Brighton, Tennessee</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li class="nav-item"><a href="index.html">Home</a></li>
+      <li class="nav-item">
+        <span>Animals ▾</span>
+        <ul class="dropdown">
+          <li><a href="does.html">Our Does</a></li>
+          <li><a href="bucks.html">Our Bucks</a></li>
+          <li><a href="bucks-on-ice.html">Bucks on Ice</a></li>
+          <li><a href="reference.html">Reference Animals</a></li>
+          <li><a href="cattle.html">Miniature Cattle</a></li>
+          <li><a href="available.html">Available</a></li>
+          <li><a href="kidding.html">Kidding Schedule</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><a href="about.html">About</a></li>
+      <li class="nav-item">
+        <span>Resources ▾</span>
+        <ul class="dropdown">
+          <li><a href="resources.html">Guides</a></li>
+          <li><a href="resources.html#calculators">Calculators</a></li>
+        </ul>
+      </li>
+      <li class="nav-item"><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<nav class="mobile-nav">
+  <a href="index.html">Home</a>
+  <span class="mobile-section-label">Animals</span>
+  <div class="mobile-sub">
+    <a href="does.html">Our Does</a>
+    <a href="bucks.html">Our Bucks</a>
+    <a href="bucks-on-ice.html">Bucks on Ice</a>
+    <a href="reference.html">Reference Animals</a>
+    <a href="cattle.html">Miniature Cattle</a>
+    <a href="available.html">Available</a>
+    <a href="kidding.html">Kidding Schedule</a>
+  </div>
+  <a href="about.html">About</a>
+  <span class="mobile-section-label">Resources</span>
+  <div class="mobile-sub">
+    <a href="resources.html">Guides</a>
+    <a href="resources.html#calculators">Calculators</a>
+  </div>
+  <a href="contact.html">Contact</a>
+</nav>
+
+
+
+<!-- SALES POLICY BANNER -->
+<div style="background:#1A1816;padding:1.1rem 0;border-bottom:2px solid var(--teal)">
+  <div class="container" style="display:flex;align-items:center;justify-content:center;gap:1.25rem;flex-wrap:wrap;text-align:center">
+    <span style="font-family:var(--font-body);font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(250,250,248,.7)">Before inquiring on any animal —</span>
+    <a href="sales-policy.html" class="btn btn-white" style="font-size:.65rem;padding:.55rem 1.25rem">Please Read Our Sales Policy</a>
+  </div>
+</div>
+<div class="page-header">
+  <div class="container">
+    <span class="eyebrow">For Sale</span>
+    <h1 class="section-title" style="font-size:clamp(2.2rem,4.5vw,3.5rem)"><em>Available</em> Animals</h1>
+    <div class="teal-rule center"></div>
+    <p style="max-width:540px;margin:0 auto;font-family:var(--font-serif);font-size:1.05rem;color:var(--dark-grey);line-height:1.85">All animals are ADGA and AGS registered. Deposits hold animals; all sales are final.</p>
+  </div>
+</div>
+
+<div style="background:var(--charcoal);padding:2rem 0">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;text-align:center">
+      <div style="color:var(--white)"><div style="font-size:1.1rem;margin-bottom:.35rem">📋</div><div style="font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal-light);margin-bottom:.3rem">ADGA &amp; AGS Registered</div><div style="font-size:.8rem;color:rgba(250,250,248,.55)">All animals registered or eligible</div></div>
+      <div style="color:var(--white)"><div style="font-size:1.1rem;margin-bottom:.35rem">💰</div><div style="font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal-light);margin-bottom:.3rem">Deposit to Hold</div><div style="font-size:.8rem;color:rgba(250,250,248,.55)">Non-refundable deposit holds animal</div></div>
+      <div style="color:var(--white)"><div style="font-size:1.1rem;margin-bottom:.35rem">🚚</div><div style="font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal-light);margin-bottom:.3rem">Pickup &amp; Shipping</div><div style="font-size:.8rem;color:rgba(250,250,248,.55)">Local pickup preferred; ground transport available</div></div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="filter-bar fade-in">
+      <button class="filter-btn active" data-filter="all">All Available</button>
+      <button class="filter-btn" data-filter="doeling">Doelings</button>
+      <button class="filter-btn" data-filter="buckling">Bucklings</button>
+      <button class="filter-btn" data-filter="adult">Adults</button>
+      <button class="filter-btn" data-filter="wether">Wethers</button>
+    </div>
+
+    <div class="avail-grid">
+      <article class="animal-card fade-in" data-category="doeling">
+        <div class="card-carousel">
+          <div class="carousel-slides">
+            <div class="carousel-slide"><div class="slide-placeholder">Add Photo Here</div><div class="carousel-caption"></div></div>
+            <div class="carousel-slide"><div class="slide-placeholder">Add Photo Here</div><div class="carousel-caption"></div></div>
+            <div class="carousel-slide"><div class="slide-placeholder">Dam Photo</div><div class="carousel-caption">Dam</div></div>
+          </div>
+          <button class="carousel-btn prev">&#8249;</button>
+          <button class="carousel-btn next">&#8250;</button>
+          <div class="carousel-dots"><button class="carousel-dot active"></button><button class="carousel-dot"></button><button class="carousel-dot"></button></div>
+          <span class="card-badge badge-avail">Available</span>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.2rem">
+            <h3 class="card-name">Animal Name</h3>
+            <span class="price-tag">$XXX</span>
+          </div>
+          <p class="card-reg">Full Registered Name</p>
+          <div class="card-meta">
+            <div class="meta-item"><span class="meta-key">DOB</span><span class="meta-val">MM/DD/YYYY</span></div>
+            <div class="meta-item"><span class="meta-key">Sex</span><span class="meta-val">Doeling</span></div>
+          </div>
+          <div class="pedigree-strip">
+            <div class="ped-parents">
+              <div class="ped-chip"><span>Sire</span>Add Sire</div>
+              <div class="ped-chip"><span>Dam</span>Add Dam</div>
+            </div>
+          </div>
+          <a href="contact.html" class="btn btn-filled" style="display:block;text-align:center;margin-top:1.25rem;font-size:.65rem">Inquire About This Animal</a>
+        </div>
+      </article>
+    </div>
+
+    <div style="background:var(--off-white);padding:3rem;border:1px solid var(--light-grey);border-top:3px solid var(--teal);margin-top:4rem" class="fade-in">
+      <div style="max-width:780px;margin:0 auto">
+        <span class="eyebrow">Before You Inquire</span>
+        <h3 class="section-title" style="font-size:1.85rem;margin-bottom:1rem">Purchase <em>Policy</em></h3>
+        <div class="teal-rule"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem 3rem;margin-top:1.5rem">
+          <div><h4 style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem">Deposits</h4><p style="font-size:.82rem;color:var(--dark-grey);line-height:1.7">A non-refundable deposit holds your animal. Balance due at pickup or before shipping.</p></div>
+          <div><h4 style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem">Pickup &amp; Shipping</h4><p style="font-size:.82rem;color:var(--dark-grey);line-height:1.7">Local pickup preferred. Ground transport available — contact us for details.</p></div>
+          <div><h4 style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem">Health</h4><p style="font-size:.82rem;color:var(--dark-grey);line-height:1.7">All animals leave healthy and current on CDT vaccination.</p></div>
+          <div><h4 style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem">Registration</h4><p style="font-size:.82rem;color:var(--dark-grey);line-height:1.7">ADGA and AGS papers transferred upon receipt of full payment.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="images/logo.png" alt="Rustic Back Acres" class="footer-brand-logo" />
+        <div class="fname">Rustic Back Acres</div>
+        <span class="floc">Brighton, Tennessee</span>
+        <p>ADGA-registered Nigerian Dwarf goats bred for performance, type, and milk production in Brighton, Tennessee.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Animals</h4>
+        <ul>
+          <li><a href="does.html">Our Does</a></li>
+          <li><a href="bucks.html">Our Bucks</a></li>
+          <li><a href="bucks-on-ice.html">Bucks on Ice</a></li>
+          <li><a href="reference.html">Reference Animals</a></li>
+          <li><a href="cattle.html">Miniature Cattle</a></li>
+          <li><a href="available.html">Available</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>More</h4>
+        <ul>
+          <li><a href="about.html">About the Farm</a></li>
+          <li><a href="kidding.html">Kidding Schedule</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Along</h4>
+        <ul>
+          <li><a href="#" target="_blank">Instagram</a></li>
+          <li><a href="#" target="_blank">TikTok</a></li>
+          <li><a href="#" target="_blank">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Rustic Back Acres · Brighton, Tennessee</span>
+      <span>ADGA Performance Herd</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</body>
+</html>
