@@ -1226,3 +1226,113 @@ footer {
   text-transform: uppercase;
   color: var(--mid-grey);
 }
+
+/* ===== 5-GENERATION PEDIGREE TREE ===== */
+.pedigree-tree-wrap {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border: 1px solid var(--light-grey);
+  background: var(--white);
+}
+.ped-tree {
+  display: flex;
+  align-items: stretch;
+  min-width: 900px;
+  font-family: var(--font-body);
+}
+.ped-col {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--light-grey);
+}
+.ped-col:last-child { border-right: none; }
+
+.ped-col-subject { flex: 0 0 140px; justify-content: center; background: var(--charcoal); }
+.ped-col-2 { flex: 0 0 180px; }
+.ped-col-3 { flex: 0 0 180px; }
+.ped-col-4 { flex: 0 0 175px; }
+.ped-col-5 { flex: 1; }
+
+.ped-subject {
+  padding: 1rem 0.75rem;
+  text-align: center;
+  color: var(--white);
+}
+.ped-subject .ped-cell-label {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--teal-light);
+  margin-bottom: 0.4rem;
+}
+.ped-subject .subject-name {
+  font-family: var(--font-rustic);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.2;
+}
+.ped-subject .ped-cell-reg {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.68rem;
+  color: rgba(250,250,248,0.55);
+  margin-top: 0.35rem;
+  line-height: 1.4;
+}
+
+.ped-cell {
+  flex: 1;
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid var(--light-grey);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: background var(--transition);
+  min-height: 0;
+}
+.ped-cell:last-child { border-bottom: none; }
+.ped-col-2 .ped-cell:nth-child(1) { background: rgba(13,140,126,0.04); }
+.ped-col-2 .ped-cell:nth-child(2) { background: rgba(0,0,0,0.02); }
+.ped-cell:hover { background: var(--teal-faint); }
+
+.ped-cell-label {
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.2rem;
+  line-height: 1;
+}
+.ped-col-4 .ped-cell-label,
+.ped-col-5 .ped-cell-label {
+  color: var(--mid-grey);
+}
+.ped-cell-name {
+  font-size: 0.75rem;
+  color: var(--charcoal);
+  line-height: 1.3;
+  font-weight: 500;
+}
+.ped-col-4 .ped-cell-name,
+.ped-col-5 .ped-cell-name {
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: var(--dark-grey);
+}
+.ped-unknown { color: var(--light-grey); font-style: italic; }
+
+/* Alternating sire/dam sides */
+.ped-col-3 .ped-cell:nth-child(1),
+.ped-col-3 .ped-cell:nth-child(2) { border-left: 2px solid rgba(13,140,126,0.2); }
+.ped-col-3 .ped-cell:nth-child(3),
+.ped-col-3 .ped-cell:nth-child(4) { border-left: 2px solid rgba(0,0,0,0.06); }
+
+@media(max-width:768px){
+  .ped-tree { min-width: 700px; }
+  .ped-col-subject { flex: 0 0 100px; }
+  .ped-col-2, .ped-col-3 { flex: 0 0 140px; }
+  .ped-col-4 { flex: 0 0 130px; }
+}
