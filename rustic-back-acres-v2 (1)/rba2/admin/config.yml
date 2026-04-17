@@ -27,12 +27,15 @@ collections:
       - {label: "Titles (SG, 2*M, *M, etc)", name: "titles", widget: "string", required: false}
       - {label: "DHIR Enrolled", name: "dhir", widget: "boolean", default: false}
       - {label: "DNA on File", name: "dna", widget: "boolean", default: true}
-      - {label: "Show Records", name: "show_records", widget: "list", required: false,
-         fields:
-           - {label: "Show Name", name: "show_name", widget: "string"}
-           - {label: "Date", name: "date", widget: "string"}
-           - {label: "Placement / Win", name: "placement", widget: "string"}
-           - {label: "Judge", name: "judge", widget: "string", required: false}}
+      - label: "Show Records"
+        name: "show_records"
+        widget: "list"
+        required: false
+        fields:
+          - {label: "Show Name", name: "show_name", widget: "string"}
+          - {label: "Date", name: "date", widget: "string"}
+          - {label: "Placement / Win", name: "placement", widget: "string"}
+          - {label: "Judge", name: "judge", widget: "string", required: false}
       - {label: "Photo 1", name: "photo1", widget: "image", required: false}
       - {label: "Photo 1 Caption", name: "photo1_caption", widget: "string", required: false, default: ""}
       - {label: "Photo 2", name: "photo2", widget: "image", required: false}
@@ -67,12 +70,15 @@ collections:
       - {label: "Titles (*B, +*B, GCH, GEE, etc)", name: "titles", widget: "string", required: false}
       - {label: "Semen Available", name: "semen", widget: "boolean", default: false}
       - {label: "DNA on File", name: "dna", widget: "boolean", default: true}
-      - {label: "Show Records", name: "show_records", widget: "list", required: false,
-         fields:
-           - {label: "Show Name", name: "show_name", widget: "string"}
-           - {label: "Date", name: "date", widget: "string"}
-           - {label: "Placement / Win", name: "placement", widget: "string"}
-           - {label: "Judge", name: "judge", widget: "string", required: false}}
+      - label: "Show Records"
+        name: "show_records"
+        widget: "list"
+        required: false
+        fields:
+          - {label: "Show Name", name: "show_name", widget: "string"}
+          - {label: "Date", name: "date", widget: "string"}
+          - {label: "Placement / Win", name: "placement", widget: "string"}
+          - {label: "Judge", name: "judge", widget: "string", required: false}
       - {label: "Photo 1", name: "photo1", widget: "image", required: false}
       - {label: "Photo 1 Caption", name: "photo1_caption", widget: "string", required: false, default: ""}
       - {label: "Photo 2", name: "photo2", widget: "image", required: false}
@@ -222,10 +228,13 @@ collections:
       - {label: "Sire", name: "sire", widget: "string", required: false}
       - {label: "Dam", name: "dam", widget: "string", required: false}
       - {label: "Titles", name: "titles", widget: "string", required: false}
-      - {label: "Collections", name: "collections", widget: "list", required: false,
-         fields:
-           - {label: "Collection Label", name: "label", widget: "string"}
-           - {label: "Details", name: "details", widget: "string"}}
+      - label: "Collections"
+        name: "collections"
+        widget: "list"
+        required: false
+        fields:
+          - {label: "Collection Label", name: "label", widget: "string"}
+          - {label: "Details", name: "details", widget: "string"}
       - {label: "Straws Available", name: "straws", widget: "string", required: false}
       - {label: "Photo 1", name: "photo1", widget: "image", required: false}
       - {label: "Photo 2", name: "photo2", widget: "image", required: false}
